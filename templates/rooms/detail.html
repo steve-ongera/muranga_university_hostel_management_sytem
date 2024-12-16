@@ -1,0 +1,15 @@
+<!-- rooms/detail.html -->
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Room Details - Room Number {{ room.room_number }}</h2>
+  <ul>
+    <li><strong>Room Number:</strong> {{ room.room_number }}</li>
+    <li><strong>Room Type:</strong> {{ room.room_type }}</li>
+    <li><strong>Hostel:</strong> {{ room.hostel.name }}</li>
+  </ul>
+
+  <a href="{% url 'room_list' %}">Back to Room List</a>
+  <a href="{% url 'update_room' room.id %}">Edit Room</a>
+  <a href="{% url 'delete_room' room.id %}">Delete Room</a>
+{% endblock %}

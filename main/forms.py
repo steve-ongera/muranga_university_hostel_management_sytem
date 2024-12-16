@@ -1,5 +1,13 @@
 from django import forms
-from .models import Student, Complaint, FeePayment, MaintenanceRequest
+from .models import *
+# forms.py
+
+
+
+class RoomForm(forms.ModelForm):
+    class Meta:
+        model = Room
+        fields = '__all__'  # Adjust the fields as necessary
 
 # Student Form
 class StudentForm(forms.ModelForm):

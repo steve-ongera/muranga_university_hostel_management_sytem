@@ -1,9 +1,18 @@
-{% extends 'base.html' %}
+
+
+<!-- rooms/list.html -->
+{% extends "base.html" %}
+
 {% block content %}
-<h2>Room List</h2>
-<ul>
+  <h2>Room List</h2>
+  <a href="{% url 'create_room' %}">Create Room</a>
+  <ul>
     {% for room in rooms %}
-    <li>Room {{ room.room_number }} - Type: {{ room.room_type }} - Occupants: {{ room.current_occupants }}/{{ room.capacity }}</li>
+      <li>
+        Room {{ room.room_number }} - {{ room.room_type }} - Hostel: {{ room.hostel.name }} - Occupants: {{ room.current_occupants }}/{{ room.capacity }}
+        <a href="{% url 'update_room' room.id %}">Edit</a>
+        <a href="{% url 'delete_room' room.id %}">Delete</a>
+      </li>
     {% endfor %}
-</ul>
+  </ul>
 {% endblock %}
