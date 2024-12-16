@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Room List</h2>
+<ul>
+    {% for room in rooms %}
+    <li>Room {{ room.room_number }} - Type: {{ room.room_type }} - Occupants: {{ room.current_occupants }}/{{ room.capacity }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

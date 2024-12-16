@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ student.first_name }} {{ student.last_name }}</h2>
+<p>Email: {{ student.email }}</p>
+<p>Phone: {{ student.phone_number }}</p>
+<p>Room: {{ student.room }}</p>
+<img src="{{ student.profile_picture.url }}" alt="Profile Picture">
+{% endblock %}
