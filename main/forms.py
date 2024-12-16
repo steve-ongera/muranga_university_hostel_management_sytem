@@ -30,12 +30,9 @@ class ComplaintForm(forms.ModelForm):
 class FeePaymentForm(forms.ModelForm):
     class Meta:
         model = FeePayment
-        fields = ['student', 'amount', 'date_paid']
-        widgets = {
-            'student': forms.Select(attrs={'class': 'form-control'}),
-            'amount': forms.NumberInput(attrs={'class': 'form-control'}),
-            'date_paid': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-        }
+        exclude = ['date_paid']
+
+
 
 # Maintenance Request Form
 class MaintenanceForm(forms.ModelForm):

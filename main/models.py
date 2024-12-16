@@ -53,7 +53,8 @@ class Hostel(models.Model):
 class FeePayment(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     amount_paid = models.DecimalField(max_digits=10, decimal_places=2)
-    date_paid = models.DateTimeField(auto_now_add=True)
+    date_paid = models.DateField(null=True, blank=True)
+
     receipt_number = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
@@ -113,6 +114,7 @@ class MaintenanceRequest(models.Model):
     issue_description = models.TextField()
     date_reported = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, default="Pending")
+    priority = models.CharField(max_length=20, choices=[('low', 'Low'), ('medium', 'Medium'), ('high', 'High')])
 
     def __str__(self):
         return f"{self.room.room_number} - {self.status}"
