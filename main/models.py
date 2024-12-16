@@ -21,6 +21,16 @@ class Student(models.Model):
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.student_id})"
 
+class Hostel(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    location = models.CharField(max_length=150)
+    total_rooms = models.PositiveIntegerField()
+    warden = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
 class Room(models.Model):
     ROOM_TYPE_CHOICES = [
         ('Single', 'Single'),
@@ -40,14 +50,6 @@ class Room(models.Model):
     def is_full(self):
         return self.current_occupants >= self.capacity
 
-class Hostel(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    location = models.CharField(max_length=150)
-    total_rooms = models.PositiveIntegerField()
-    warden = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
 
 
 class FeePayment(models.Model):
