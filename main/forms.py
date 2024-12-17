@@ -22,11 +22,10 @@ class CustomRegistrationForm(forms.ModelForm):
         return cleaned_data
 
 class CustomLoginForm(forms.Form):
-    student_id = forms.CharField(max_length=20, label="Student ID")
-    password = forms.CharField(widget=forms.PasswordInput, label="Password")
+    username = forms.CharField(max_length=150, label='Username')
+    password = forms.CharField(widget=forms.PasswordInput, label='Password')
 
 
-    
 class RoomForm(forms.ModelForm):
     class Meta:
         model = Room

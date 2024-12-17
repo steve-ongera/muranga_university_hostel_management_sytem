@@ -3,6 +3,7 @@ from .models import *
 from .forms import *
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login as auth_login
 from .forms import CustomRegistrationForm, CustomLoginForm
 
 # Registration View
@@ -27,16 +28,17 @@ def login(request):
     if request.method == 'POST':
         form = CustomLoginForm(request.POST)
         if form.is_valid():
-            student_id = form.cleaned_data['student_id']
+            username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            user = authenticate(request, username=student_id, password=password)
-            if user:
-                login(request, user)
-                return redirect('dashboard')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                auth_login(request, user)  # This logs in the user
+                return redirect('dashboard')  # Redirect to the dashboard after login
             else:
-                form.add_error(None, "Invalid student ID or password")
+                form.add_error(None, "Invalid username or password")
     else:
         form = CustomLoginForm()
+
     return render(request, 'auth/login.html', {'form': form})
 
 # Dashboard View
