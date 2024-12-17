@@ -53,3 +53,8 @@ class MaintenanceForm(forms.ModelForm):
             'priority': forms.Select(attrs={'class': 'form-control'}),
             'status': forms.Select(attrs={'class': 'form-control'}),
         }
+
+class MaintenanceRequestForm(forms.ModelForm):
+    class Meta:
+        model = MaintenanceRequest
+        fields = ['room', 'issue_description', 'status', 'priority']
