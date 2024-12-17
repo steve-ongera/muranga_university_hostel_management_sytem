@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Student Details</h2>
+  <ul>
+    <li><strong>Student ID:</strong> {{ student.student_id }}</li>
+    <li><strong>Name:</strong> {{ student.first_name }} {{ student.last_name }}</li>
+    <li><strong>Email:</strong> {{ student.email }}</li>
+    <li><strong>Phone Number:</strong> {{ student.phone_number }}</li>
+    <li><strong>Course:</strong> {{ student.course }}</li>
+    <li><strong>Year of Study:</strong> {{ student.year_of_study }}</li>
+    <li><strong>Gender:</strong> {{ student.gender }}</li>
+    <li><strong>Room:</strong> {{ student.room.room_number }}</li>
+    {% if student.profile_picture %}
+      <li><img src="{{ student.profile_picture.url }}" alt="Profile Picture" width="150"></li>
+    {% endif %}
+  </ul>
+  <a href="{% url 'student_list' %}">Back to Students</a>
+  <a href="{% url 'update_student' student.id %}">Edit</a>
+  <a href="{% url 'delete_student' student.id %}">Delete</a>
+{% endblock %}

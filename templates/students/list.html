@@ -1,9 +1,17 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
 {% block content %}
-<h2>Students List</h2>
-<ul>
+  <h2>Student List</h2>
+  <ul>
     {% for student in students %}
-    <li><a href="{% url 'student_profile' student.pk %}">{{ student.first_name }} {{ student.last_name }}</a></li>
+      <li>
+        <a href="{% url 'student_detail' student.id %}">
+          {{ student.first_name }} {{ student.last_name }} - {{ student.student_id }}
+        </a>
+        <a href="{% url 'update_student' student.id %}">Edit</a>
+        <a href="{% url 'delete_student' student.id %}">Delete</a>
+      </li>
     {% endfor %}
-</ul>
+  </ul>
+  <a href="{% url 'create_student' %}">Add New Student</a>
 {% endblock %}

@@ -6,6 +6,11 @@ urlpatterns = [
     path('students/register/', views.student_register, name='student_register'),
     path('students/', views.student_list, name='student_list'),
     path('students/<int:pk>/', views.student_profile, name='student_profile'),
+    path('students/', views.student_list, name='student_list'),
+    path('students/create/', views.create_student, name='create_student'),
+    path('students/detail/<int:student_id>/', views.student_detail, name='student_detail'),
+    path('students/update/<int:student_id>/', views.update_student, name='update_student'),
+    path('students/delete/<int:student_id>/', views.delete_student, name='delete_student'),
 
     # Room URLs
     path('rooms/', views.room_list, name='room_list'),
@@ -38,5 +43,17 @@ urlpatterns = [
     path('bed_allocations/detail/<int:allocation_id>/', views.bed_allocation_detail, name='bed_allocation_detail'),
     path('bed_allocations/update/<int:allocation_id>/', views.update_bed_allocation, name='update_bed_allocation'),
     path('bed_allocations/delete/<int:allocation_id>/', views.delete_bed_allocation, name='delete_bed_allocation'),
+    #staff
+    path('staff/', views.staff_list, name='staff_list'),
+    path('staff/create/', views.create_staff, name='create_staff'),
+    path('staff/detail/<int:staff_id>/', views.staff_detail, name='staff_detail'),
+    path('staff/update/<int:staff_id>/', views.update_staff, name='update_staff'),
+    path('staff/delete/<int:staff_id>/', views.delete_staff, name='delete_staff'),
+    #hostel
+    path('hostels/', views.hostel_list, name='hostel_list'),
+    path('hostels/create/', views.create_hostel, name='create_hostel'),
+    path('hostels/detail/<int:hostel_id>/', views.hostel_detail, name='hostel_detail'),
+    path('hostels/update/<int:hostel_id>/', views.update_hostel, name='update_hostel'),
+    path('hostels/delete/<int:hostel_id>/', views.delete_hostel, name='delete_hostel'),
     
 ]

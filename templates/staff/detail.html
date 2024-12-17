@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Staff Details</h2>
+  <ul>
+    <li><strong>Name:</strong> {{ staff_member.name }}</li>
+    <li><strong>Email:</strong> {{ staff_member.email }}</li>
+    <li><strong>Phone Number:</strong> {{ staff_member.phone_number }}</li>
+    <li><strong>Role:</strong> {{ staff_member.role }}</li>
+    <li><strong>Hostel:</strong> {{ staff_member.hostel }}</li>
+  </ul>
+  <a href="{% url 'staff_list' %}">Back to Staff List</a>
+  <a href="{% url 'update_staff' staff_member.id %}">Edit</a>
+  <a href="{% url 'delete_staff' staff_member.id %}">Delete</a>
+{% endblock %}

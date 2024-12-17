@@ -70,3 +70,15 @@ class BedAllocationForm(forms.ModelForm):
     class Meta:
         model = BedAllocation
         fields = ['student', 'room', 'bed_number']
+
+
+class StaffForm(forms.ModelForm):
+    class Meta:
+        model = Staff
+        fields = ['name', 'email', 'phone_number', 'role', 'hostel']
+
+
+class HostelForm(forms.ModelForm):
+    class Meta:
+        model = Hostel
+        fields = ['name', 'location', 'total_rooms', 'warden']

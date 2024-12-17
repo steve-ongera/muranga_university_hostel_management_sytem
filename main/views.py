@@ -17,6 +17,47 @@ def student_list(request):
     students = Student.objects.all()
     return render(request, 'students/list.html', {'students': students})
 
+# Create Student
+def create_student(request):
+    if request.method == "POST":
+        form = StudentForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('student_list')
+    else:
+        form = StudentForm()
+    return render(request, 'students/create.html', {'form': form})
+
+# List all Students
+def student_list(request):
+    students = Student.objects.all()
+    return render(request, 'students/list.html', {'students': students})
+
+# Detail View for Student
+def student_detail(request, student_id):
+    student = get_object_or_404(Student, id=student_id)
+    return render(request, 'students/detail.html', {'student': student})
+
+# Update Student
+def update_student(request, student_id):
+    student = get_object_or_404(Student, id=student_id)
+    if request.method == "POST":
+        form = StudentForm(request.POST, request.FILES, instance=student)
+        if form.is_valid():
+            form.save()
+            return redirect('student_list')
+    else:
+        form = StudentForm(instance=student)
+    return render(request, 'students/update.html', {'form': form, 'student': student})
+
+# Delete Student
+def delete_student(request, student_id):
+    student = get_object_or_404(Student, id=student_id)
+    if request.method == "POST":
+        student.delete()
+        return redirect('student_list')
+    return render(request, 'students/confirm_delete.html', {'student': student})
+
 def student_profile(request, pk):
     student = get_object_or_404(Student, pk=pk)
     return render(request, 'students/profile.html', {'student': student})
@@ -231,3 +272,88 @@ def delete_bed_allocation(request, allocation_id):
         allocation.delete()
         return redirect('bed_allocation_list')
     return render(request, 'bed_allocations/confirm_delete.html', {'allocation': allocation})
+
+
+
+# Create Staff
+def create_staff(request):
+    if request.method == "POST":
+        form = StaffForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('staff_list')
+    else:
+        form = StaffForm()
+    return render(request, 'staff/create.html', {'form': form})
+
+# List all Staff
+def staff_list(request):
+    staff_members = Staff.objects.all()
+    return render(request, 'staff/list.html', {'staff_members': staff_members})
+
+# Detail View for Staff
+def staff_detail(request, staff_id):
+    staff_member = get_object_or_404(Staff, id=staff_id)
+    return render(request, 'staff/detail.html', {'staff_member': staff_member})
+
+# Update Staff
+def update_staff(request, staff_id):
+    staff_member = get_object_or_404(Staff, id=staff_id)
+    if request.method == "POST":
+        form = StaffForm(request.POST, instance=staff_member)
+        if form.is_valid():
+            form.save()
+            return redirect('staff_list')
+    else:
+        form = StaffForm(instance=staff_member)
+    return render(request, 'staff/update.html', {'form': form, 'staff_member': staff_member})
+
+# Delete Staff
+def delete_staff(request, staff_id):
+    staff_member = get_object_or_404(Staff, id=staff_id)
+    if request.method == "POST":
+        staff_member.delete()
+        return redirect('staff_list')
+    return render(request, 'staff/confirm_delete.html', {'staff_member': staff_member})
+
+
+# Create Hostel
+def create_hostel(request):
+    if request.method == "POST":
+        form = HostelForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('hostel_list')
+    else:
+        form = HostelForm()
+    return render(request, 'hostels/create.html', {'form': form})
+
+# List all Hostels
+def hostel_list(request):
+    hostels = Hostel.objects.all()
+    return render(request, 'hostels/list.html', {'hostels': hostels})
+
+# Detail View for Hostel
+def hostel_detail(request, hostel_id):
+    hostel = get_object_or_404(Hostel, id=hostel_id)
+    return render(request, 'hostels/detail.html', {'hostel': hostel})
+
+# Update Hostel
+def update_hostel(request, hostel_id):
+    hostel = get_object_or_404(Hostel, id=hostel_id)
+    if request.method == "POST":
+        form = HostelForm(request.POST, instance=hostel)
+        if form.is_valid():
+            form.save()
+            return redirect('hostel_list')
+    else:
+        form = HostelForm(instance=hostel)
+    return render(request, 'hostels/update.html', {'form': form, 'hostel': hostel})
+
+# Delete Hostel
+def delete_hostel(request, hostel_id):
+    hostel = get_object_or_404(Hostel, id=hostel_id)
+    if request.method == "POST":
+        hostel.delete()
+        return redirect('hostel_list')
+    return render(request, 'hostels/confirm_delete.html', {'hostel': hostel})

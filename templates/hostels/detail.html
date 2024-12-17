@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>{{ hostel.name }} Details</h2>
+  <ul>
+    <li><strong>Location:</strong> {{ hostel.location }}</li>
+    <li><strong>Total Rooms:</strong> {{ hostel.total_rooms }}</li>
+    <li><strong>Warden:</strong> {{ hostel.warden }}</li>
+  </ul>
+  <a href="{% url 'hostel_list' %}">Back to Hostels</a>
+  <a href="{% url 'update_hostel' hostel.id %}">Edit</a>
+  <a href="{% url 'delete_hostel' hostel.id %}">Delete</a>
+{% endblock %}
