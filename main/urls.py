@@ -6,7 +6,7 @@ urlpatterns = [
     path('students/register/', views.student_register, name='student_register'),
     path('students/', views.student_list, name='student_list'),
     path('students/<int:pk>/', views.student_profile, name='student_profile'),
-    path('students/', views.student_list, name='student_list'),
+    #path('students/', views.student_list, name='student_list'),
     path('students/create/', views.create_student, name='create_student'),
     path('students/detail/<int:student_id>/', views.student_detail, name='student_detail'),
     path('students/update/<int:student_id>/', views.update_student, name='update_student'),
@@ -57,7 +57,7 @@ urlpatterns = [
     path('hostels/delete/<int:hostel_id>/', views.delete_hostel, name='delete_hostel'),
     #auth
     path('register/', views.register, name='register'),
-    path('login/', views.login, name='login'),
+    path('', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
     path('dashboard/', views.dashboard, name='dashboard'),
     
