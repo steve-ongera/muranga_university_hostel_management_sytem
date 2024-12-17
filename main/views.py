@@ -147,3 +147,45 @@ def delete_maintenance_request(request, request_id):
         maintenance.delete()
         return redirect('maintenance_list')
     return render(request, 'maintenance/confirm_delete.html', {'maintenance': maintenance})
+
+
+# Create a Visitor
+def create_visitor(request):
+    if request.method == "POST":
+        form = VisitorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('visitor_list')
+    else:
+        form = VisitorForm()
+    return render(request, 'visitors/create.html', {'form': form})
+
+# List all Visitors
+def visitor_list(request):
+    visitors = Visitor.objects.all()
+    return render(request, 'visitors/list.html', {'visitors': visitors})
+
+# Detail View for a Visitor
+def visitor_detail(request, visitor_id):
+    visitor = get_object_or_404(Visitor, id=visitor_id)
+    return render(request, 'visitors/detail.html', {'visitor': visitor})
+
+# Update a Visitor
+def update_visitor(request, visitor_id):
+    visitor = get_object_or_404(Visitor, id=visitor_id)
+    if request.method == "POST":
+        form = VisitorForm(request.POST, instance=visitor)
+        if form.is_valid():
+            form.save()
+            return redirect('visitor_list')
+    else:
+        form = VisitorForm(instance=visitor)
+    return render(request, 'visitors/update.html', {'form': form, 'visitor': visitor})
+
+# Delete a Visitor
+def delete_visitor(request, visitor_id):
+    visitor = get_object_or_404(Visitor, id=visitor_id)
+    if request.method == "POST":
+        visitor.delete()
+        return redirect('visitor_list')
+    return render(request, 'visitors/confirm_delete.html', {'visitor': visitor})

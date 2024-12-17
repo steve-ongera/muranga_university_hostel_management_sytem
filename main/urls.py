@@ -26,5 +26,11 @@ urlpatterns = [
     path('maintenance/detail/<int:request_id>/', views.maintenance_detail, name='maintenance_detail'),
     path('maintenance/update/<int:request_id>/', views.update_maintenance_request, name='update_maintenance_request'),
     path('maintenance/delete/<int:request_id>/', views.delete_maintenance_request, name='delete_maintenance_request'),
+    #visitors
+    path('visitors/', views.visitor_list, name='visitor_list'),
+    path('visitors/create/', views.create_visitor, name='create_visitor'),
+    path('visitors/detail/<int:visitor_id>/', views.visitor_detail, name='visitor_detail'),
+    path('visitors/update/<int:visitor_id>/', views.update_visitor, name='update_visitor'),
+    path('visitors/delete/<int:visitor_id>/', views.delete_visitor, name='delete_visitor'),
     
 ]

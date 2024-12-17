@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Visitors List</h2>
+  <ul>
+    {% for visitor in visitors %}
+      <li>
+        <a href="{% url 'visitor_detail' visitor.id %}">{{ visitor.name }} visiting {{ visitor.student.student_id }}</a>
+        (Date of Visit: {{ visitor.date_of_visit }})
+        <a href="{% url 'update_visitor' visitor.id %}">Edit</a>
+        <a href="{% url 'delete_visitor' visitor.id %}">Delete</a>
+      </li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'create_visitor' %}">Add New Visitor</a>
+{% endblock %}

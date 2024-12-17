@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Are you sure you want to delete this visitor?</h2>
+  <ul>
+    <li><strong>Name:</strong> {{ visitor.name }}</li>
+    <li><strong>Student:</strong> {{ visitor.student.student_id }}</li>
+  </ul>
+  <form method="POST">
+    {% csrf_token %}
+    <button type="submit">Yes, Delete</button>
+    <a href="{% url 'visitor_list' %}">Cancel</a>
+  </form>
+{% endblock %}

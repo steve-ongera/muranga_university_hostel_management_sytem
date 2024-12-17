@@ -58,3 +58,9 @@ class MaintenanceRequestForm(forms.ModelForm):
     class Meta:
         model = MaintenanceRequest
         fields = ['room', 'issue_description', 'status', 'priority']
+
+
+class VisitorForm(forms.ModelForm):
+    class Meta:
+        model = Visitor
+        fields = ['name', 'phone_number', 'student', 'date_of_visit', 'purpose']        

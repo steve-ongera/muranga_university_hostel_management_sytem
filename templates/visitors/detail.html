@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Visitor Details</h2>
+  <ul>
+    <li><strong>Name:</strong> {{ visitor.name }}</li>
+    <li><strong>Phone Number:</strong> {{ visitor.phone_number }}</li>
+    <li><strong>Student:</strong> {{ visitor.student.student_id }}</li>
+    <li><strong>Date of Visit:</strong> {{ visitor.date_of_visit }}</li>
+    <li><strong>Purpose:</strong> {{ visitor.purpose }}</li>
+  </ul>
+  <a href="{% url 'visitor_list' %}">Back to Visitors List</a>
+  <a href="{% url 'update_visitor' visitor.id %}">Edit</a>
+  <a href="{% url 'delete_visitor' visitor.id %}">Delete</a>
+{% endblock %}
