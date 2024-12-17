@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Maintenance Requests</h2>
+  <ul>
+    {% for request in requests %}
+      <li>
+        <a href="{% url 'maintenance_detail' request.id %}">{{ request.room.room_number }} - {{ request.status }}</a>
+        (Priority: {{ request.priority }})
+        <a href="{% url 'update_maintenance_request' request.id %}">Edit</a>
+        <a href="{% url 'delete_maintenance_request' request.id %}">Delete</a>
+      </li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'file_maintenance_request' %}">File a New Request</a>
+{% endblock %}

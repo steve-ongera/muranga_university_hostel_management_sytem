@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Maintenance Request Details</h2>
+  <ul>
+    <li><strong>Room:</strong> {{ maintenance.room.room_number }}</li>
+    <li><strong>Issue:</strong> {{ maintenance.issue_description }}</li>
+    <li><strong>Status:</strong> {{ maintenance.status }}</li>
+    <li><strong>Priority:</strong> {{ maintenance.priority }}</li>
+    <li><strong>Date Reported:</strong> {{ maintenance.date_reported }}</li>
+  </ul>
+  <a href="{% url 'maintenance_list' %}">Back to Maintenance Requests</a>
+  <a href="{% url 'update_maintenance_request' maintenance.id %}">Edit</a>
+  <a href="{% url 'delete_maintenance_request' maintenance.id %}">Delete</a>
+{% endblock %}
