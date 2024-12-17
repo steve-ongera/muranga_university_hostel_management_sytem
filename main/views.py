@@ -106,3 +106,44 @@ def delete_complaint(request, complaint_id):
         complaint.delete()
         return redirect('complaint_list')
     return render(request, 'complaints/confirm_delete.html', {'complaint': complaint})
+
+# Create a Maintenance Request
+def file_maintenance_request(request):
+    if request.method == "POST":
+        form = MaintenanceRequestForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('maintenance_list')
+    else:
+        form = MaintenanceRequestForm()
+    return render(request, 'maintenance/file.html', {'form': form})
+
+# List all Maintenance Requests
+def maintenance_list(request):
+    requests = MaintenanceRequest.objects.all()
+    return render(request, 'maintenance/list.html', {'requests': requests})
+
+# Detail View for a Maintenance Request
+def maintenance_detail(request, request_id):
+    maintenance = get_object_or_404(MaintenanceRequest, id=request_id)
+    return render(request, 'maintenance/detail.html', {'maintenance': maintenance})
+
+# Update a Maintenance Request
+def update_maintenance_request(request, request_id):
+    maintenance = get_object_or_404(MaintenanceRequest, id=request_id)
+    if request.method == "POST":
+        form = MaintenanceRequestForm(request.POST, instance=maintenance)
+        if form.is_valid():
+            form.save()
+            return redirect('maintenance_list')
+    else:
+        form = MaintenanceRequestForm(instance=maintenance)
+    return render(request, 'maintenance/update.html', {'form': form, 'maintenance': maintenance})
+
+# Delete a Maintenance Request
+def delete_maintenance_request(request, request_id):
+    maintenance = get_object_or_404(MaintenanceRequest, id=request_id)
+    if request.method == "POST":
+        maintenance.delete()
+        return redirect('maintenance_list')
+    return render(request, 'maintenance/confirm_delete.html', {'maintenance': maintenance})

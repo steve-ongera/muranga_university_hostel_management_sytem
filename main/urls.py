@@ -20,4 +20,11 @@ urlpatterns = [
     path('complaints/detail/<int:complaint_id>/', views.complaint_detail, name='complaint_detail'),
     path('complaints/update/<int:complaint_id>/', views.update_complaint, name='update_complaint'),
     path('complaints/delete/<int:complaint_id>/', views.delete_complaint, name='delete_complaint'),
+    # maintenance urls
+    path('maintenance/', views.maintenance_list, name='maintenance_list'),
+    path('maintenance/file/', views.file_maintenance_request, name='file_maintenance_request'),
+    path('maintenance/detail/<int:request_id>/', views.maintenance_detail, name='maintenance_detail'),
+    path('maintenance/update/<int:request_id>/', views.update_maintenance_request, name='update_maintenance_request'),
+    path('maintenance/delete/<int:request_id>/', views.delete_maintenance_request, name='delete_maintenance_request'),
+    
 ]
