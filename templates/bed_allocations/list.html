@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Bed Allocation List</h2>
+  <ul>
+    {% for allocation in bed_allocations %}
+      <li>
+        <a href="{% url 'bed_allocation_detail' allocation.id %}">
+          {{ allocation.student.student_id }} - Bed {{ allocation.bed_number }} in {{ allocation.room.room_number }}
+        </a>
+        <a href="{% url 'update_bed_allocation' allocation.id %}">Edit</a>
+        <a href="{% url 'delete_bed_allocation' allocation.id %}">Delete</a>
+      </li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'create_bed_allocation' %}">Add New Bed Allocation</a>
+{% endblock %}

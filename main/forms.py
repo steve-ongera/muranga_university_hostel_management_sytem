@@ -64,3 +64,9 @@ class VisitorForm(forms.ModelForm):
     class Meta:
         model = Visitor
         fields = ['name', 'phone_number', 'student', 'date_of_visit', 'purpose']        
+
+
+class BedAllocationForm(forms.ModelForm):
+    class Meta:
+        model = BedAllocation
+        fields = ['student', 'room', 'bed_number']

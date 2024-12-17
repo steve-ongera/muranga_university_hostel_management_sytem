@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Are you sure you want to delete this bed allocation?</h2>
+  <ul>
+    <li><strong>Student:</strong> {{ allocation.student.student_id }}</li>
+    <li><strong>Room:</strong> {{ allocation.room.room_number }}</li>
+    <li><strong>Bed Number:</strong> {{ allocation.bed_number }}</li>
+  </ul>
+  <form method="POST">
+    {% csrf_token %}
+    <button type="submit">Yes, Delete</button>
+    <a href="{% url 'bed_allocation_list' %}">Cancel</a>
+  </form>
+{% endblock %}

@@ -189,3 +189,45 @@ def delete_visitor(request, visitor_id):
         visitor.delete()
         return redirect('visitor_list')
     return render(request, 'visitors/confirm_delete.html', {'visitor': visitor})
+
+
+# Create a Bed Allocation
+def create_bed_allocation(request):
+    if request.method == "POST":
+        form = BedAllocationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('bed_allocation_list')
+    else:
+        form = BedAllocationForm()
+    return render(request, 'bed_allocations/create.html', {'form': form})
+
+# List all Bed Allocations
+def bed_allocation_list(request):
+    bed_allocations = BedAllocation.objects.all()
+    return render(request, 'bed_allocations/list.html', {'bed_allocations': bed_allocations})
+
+# Detail View for a Bed Allocation
+def bed_allocation_detail(request, allocation_id):
+    allocation = get_object_or_404(BedAllocation, id=allocation_id)
+    return render(request, 'bed_allocations/detail.html', {'allocation': allocation})
+
+# Update a Bed Allocation
+def update_bed_allocation(request, allocation_id):
+    allocation = get_object_or_404(BedAllocation, id=allocation_id)
+    if request.method == "POST":
+        form = BedAllocationForm(request.POST, instance=allocation)
+        if form.is_valid():
+            form.save()
+            return redirect('bed_allocation_list')
+    else:
+        form = BedAllocationForm(instance=allocation)
+    return render(request, 'bed_allocations/update.html', {'form': form, 'allocation': allocation})
+
+# Delete a Bed Allocation
+def delete_bed_allocation(request, allocation_id):
+    allocation = get_object_or_404(BedAllocation, id=allocation_id)
+    if request.method == "POST":
+        allocation.delete()
+        return redirect('bed_allocation_list')
+    return render(request, 'bed_allocations/confirm_delete.html', {'allocation': allocation})

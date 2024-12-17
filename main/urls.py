@@ -32,5 +32,11 @@ urlpatterns = [
     path('visitors/detail/<int:visitor_id>/', views.visitor_detail, name='visitor_detail'),
     path('visitors/update/<int:visitor_id>/', views.update_visitor, name='update_visitor'),
     path('visitors/delete/<int:visitor_id>/', views.delete_visitor, name='delete_visitor'),
+    #bed alocation
+    path('bed_allocations/', views.bed_allocation_list, name='bed_allocation_list'),
+    path('bed_allocations/create/', views.create_bed_allocation, name='create_bed_allocation'),
+    path('bed_allocations/detail/<int:allocation_id>/', views.bed_allocation_detail, name='bed_allocation_detail'),
+    path('bed_allocations/update/<int:allocation_id>/', views.update_bed_allocation, name='update_bed_allocation'),
+    path('bed_allocations/delete/<int:allocation_id>/', views.delete_bed_allocation, name='delete_bed_allocation'),
     
 ]
