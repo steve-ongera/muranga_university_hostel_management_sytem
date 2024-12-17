@@ -77,6 +77,32 @@ def file_complaint(request):
         form = ComplaintForm()
     return render(request, 'complaints/file.html', {'form': form})
 
+# Complaint List (Read all complaints)
 def complaint_list(request):
     complaints = Complaint.objects.all()
     return render(request, 'complaints/list.html', {'complaints': complaints})
+
+# Complaint Detail View (Read single complaint)
+def complaint_detail(request, complaint_id):
+    complaint = get_object_or_404(Complaint, id=complaint_id)
+    return render(request, 'complaints/detail.html', {'complaint': complaint})
+
+# Update Complaint
+def update_complaint(request, complaint_id):
+    complaint = get_object_or_404(Complaint, id=complaint_id)
+    if request.method == "POST":
+        form = ComplaintForm(request.POST, instance=complaint)
+        if form.is_valid():
+            form.save()
+            return redirect('complaint_list')
+    else:
+        form = ComplaintForm(instance=complaint)
+    return render(request, 'complaints/update.html', {'form': form, 'complaint': complaint})
+
+# Delete Complaint
+def delete_complaint(request, complaint_id):
+    complaint = get_object_or_404(Complaint, id=complaint_id)
+    if request.method == "POST":
+        complaint.delete()
+        return redirect('complaint_list')
+    return render(request, 'complaints/confirm_delete.html', {'complaint': complaint})

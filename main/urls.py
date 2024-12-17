@@ -17,4 +17,7 @@ urlpatterns = [
     # Complaint URLs
     path('complaints/file/', views.file_complaint, name='file_complaint'),
     path('complaints/', views.complaint_list, name='complaint_list'),
+    path('complaints/detail/<int:complaint_id>/', views.complaint_detail, name='complaint_detail'),
+    path('complaints/update/<int:complaint_id>/', views.update_complaint, name='update_complaint'),
+    path('complaints/delete/<int:complaint_id>/', views.delete_complaint, name='delete_complaint'),
 ]

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Complaint Details</h2>
+  <ul>
+    <li><strong>Title:</strong> {{ complaint.title }}</li>
+    <li><strong>Description:</strong> {{ complaint.description }}</li>
+    <li><strong>Date Filed:</strong> {{ complaint.created_at }}</li>
+  </ul>
+  <a href="{% url 'complaint_list' %}">Back to Complaints</a>
+  <a href="{% url 'update_complaint' complaint.id %}">Edit</a>
+  <a href="{% url 'delete_complaint' complaint.id %}">Delete</a>
+{% endblock %}
