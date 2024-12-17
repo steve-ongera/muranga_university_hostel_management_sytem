@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        h1, h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .stats, .recent-items {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px;
+        }
+        .stat-box, .list-box {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 10px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .list-box {
+            text-align: left;
+            width: 45%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        table th {
+            background-color: #007BFF;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Admin Dashboard</h1>
+    
+    <!-- Dashboard Statistics -->
+    <h2>Statistics</h2>
+    <div class="stats">
+        <div class="stat-box">
+            <h3>Total Users</h3>
+            <p>{{ total_users }}</p>
+        </div>
+        <div class="stat-box">
+            <h3>Total Students</h3>
+            <p>{{ total_students }}</p>
+        </div>
+        <div class="stat-box">
+            <h3>Total Hostels</h3>
+            <p>{{ total_hostels }}</p>
+        </div>
+        <div class="stat-box">
+            <h3>Total Rooms</h3>
+            <p>{{ total_rooms }}</p>
+        </div>
+        <div class="stat-box">
+            <h3>Total Beds Allocated</h3>
+            <p>{{ total_beds }}</p>
+        </div>
+        <div class="stat-box">
+            <h3>Total Fee Payments</h3>
+            <p>{{ total_fee_payments }}</p>
+        </div>
+    </div>
+
+    <!-- Recent Complaints -->
+    <h2>Recent Complaints</h2>
+    <div class="recent-items">
+        <div class="list-box">
+            <h3>Latest Complaints</h3>
+            <table>
+                <tr>
+                    <th>Student</th>
+                    <th>Complaint</th>
+                    <th>Date Filed</th>
+                    <th>Status</th>
+                </tr>
+                {% for complaint in recent_complaints %}
+                <tr>
+                    <td>{{ complaint.student }}</td>
+                    <td>{{ complaint.complaint_text }}</td>
+                    <td>{{ complaint.date_filed }}</td>
+                    <td>{{ complaint.status }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">No recent complaints.</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <!-- Maintenance Requests -->
+        <div class="list-box">
+            <h3>Pending Maintenance Requests</h3>
+            <table>
+                <tr>
+                    <th>Room</th>
+                    <th>Issue</th>
+                    <th>Date Reported</th>
+                    <th>Status</th>
+                </tr>
+                {% for request in pending_maintenance %}
+                <tr>
+                    <td>{{ request.room }}</td>
+                    <td>{{ request.issue_description }}</td>
+                    <td>{{ request.date_reported }}</td>
+                    <td>{{ request.status }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">No pending maintenance requests.</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</body>
+</html>

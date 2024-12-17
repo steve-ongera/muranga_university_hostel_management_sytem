@@ -1,9 +1,32 @@
 from django import forms
 from .models import *
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 # forms.py
 
 
+class CustomRegistrationForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
+    confirm_password = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
 
+    class Meta:
+        model = Student
+        fields = ['student_id', 'first_name', 'last_name', 'email', 'phone_number', 'gender', 'profile_picture']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        confirm_password = cleaned_data.get("confirm_password")
+        if password and confirm_password and password != confirm_password:
+            self.add_error('confirm_password', "Passwords do not match")
+        return cleaned_data
+
+class CustomLoginForm(forms.Form):
+    student_id = forms.CharField(max_length=20, label="Student ID")
+    password = forms.CharField(widget=forms.PasswordInput, label="Password")
+
+
+    
 class RoomForm(forms.ModelForm):
     class Meta:
         model = Room

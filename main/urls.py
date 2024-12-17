@@ -55,5 +55,10 @@ urlpatterns = [
     path('hostels/detail/<int:hostel_id>/', views.hostel_detail, name='hostel_detail'),
     path('hostels/update/<int:hostel_id>/', views.update_hostel, name='update_hostel'),
     path('hostels/delete/<int:hostel_id>/', views.delete_hostel, name='delete_hostel'),
+    #auth
+    path('register/', views.register, name='register'),
+    path('login/', views.login, name='login'),
+    path('logout/', views.logout, name='logout'),
+    path('dashboard/', views.dashboard, name='dashboard'),
     
 ]

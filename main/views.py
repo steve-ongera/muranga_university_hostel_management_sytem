@@ -1,6 +1,76 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from .forms import *
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from .forms import CustomRegistrationForm, CustomLoginForm
+
+# Registration View
+def register(request):
+    if request.method == 'POST':
+        form = CustomRegistrationForm(request.POST, request.FILES)
+        if form.is_valid():
+            student_id = form.cleaned_data['student_id']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            # Create a user to log in with student_id
+            user = User.objects.create_user(username=student_id, email=email, password=password)
+            user.save()
+            form.save()
+            return redirect('login')
+    else:
+        form = CustomRegistrationForm()
+    return render(request, 'auth/register.html', {'form': form})
+
+# Login View
+def login(request):
+    if request.method == 'POST':
+        form = CustomLoginForm(request.POST)
+        if form.is_valid():
+            student_id = form.cleaned_data['student_id']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=student_id, password=password)
+            if user:
+                login(request, user)
+                return redirect('dashboard')
+            else:
+                form.add_error(None, "Invalid student ID or password")
+    else:
+        form = CustomLoginForm()
+    return render(request, 'auth/login.html', {'form': form})
+
+# Dashboard View
+def dashboard(request):
+    # Dashboard Statistics
+    total_users = User.objects.count()
+    total_students = Student.objects.count()
+    total_hostels = Hostel.objects.count()
+    total_rooms = Room.objects.count()
+    total_beds = BedAllocation.objects.count()
+    total_fee_payments = FeePayment.objects.count()
+
+    # Complaints and Maintenance Summary
+    recent_complaints = Complaint.objects.order_by('-date_filed')[:5]  # Latest 5 complaints
+    pending_maintenance = MaintenanceRequest.objects.filter(status="Pending").order_by('-date_reported')[:5]
+
+    # Context to pass to the template
+    context = {
+        'total_users': total_users,
+        'total_students': total_students,
+        'total_hostels': total_hostels,
+        'total_rooms': total_rooms,
+        'total_beds': total_beds,
+        'total_fee_payments': total_fee_payments,
+        'recent_complaints': recent_complaints,
+        'pending_maintenance': pending_maintenance,
+    }
+    return render(request, 'dashboard.html', context)
+
+
+# Logout View
+def custom_logout(request):
+    logout(request)
+    return redirect('login')
 
 # Student views
 def student_register(request):
