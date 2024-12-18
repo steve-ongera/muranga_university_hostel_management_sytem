@@ -107,9 +107,16 @@ def login(request):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             user = authenticate(request, username=username, password=password)
+
             if user is not None:
                 auth_login(request, user)  # This logs in the user
-                return redirect('dashboard')  # Redirect to the dashboard after login
+
+                # Redirect based on whether the user is a staff member (admin) or not (student)
+                if user.is_staff:  # Check if the user has admin privileges (staff status)
+                    return redirect('admin_dashboard')  # Replace 'admin_dashboard' with the actual URL name for the admin dashboard
+                else:
+                    return redirect('student_dashboard')  # Replace 'student_dashboard' with the actual URL name for the student dashboard
+
             else:
                 form.add_error(None, "Invalid username or password")
     else:
