@@ -7,6 +7,7 @@ class StudentRegistrationForm(forms.Form):
     first_name = forms.CharField(max_length=50)
     last_name = forms.CharField(max_length=50)
     student_id = forms.CharField(max_length=20)
+    email = forms.EmailField()
     username = forms.CharField(max_length=50)
     password = forms.CharField(widget=forms.PasswordInput)
 

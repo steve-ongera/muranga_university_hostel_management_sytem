@@ -18,6 +18,7 @@ def student_register(request):
             student = form.cleaned_data['student']
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
+            email = form.cleaned_data['email']
 
             # Check if a user with this username already exists
             if User.objects.filter(username=username).exists():
@@ -28,12 +29,14 @@ def student_register(request):
                     username=username,
                     password=password,
                     first_name=student.first_name,
-                    last_name=student.last_name
+                    last_name=student.last_name,
+                    email=email
                 )
                 # Log in the user
-                login(request, user)
+                #login(request, user)
                 messages.success(request, "Account created successfully. You are now logged in.")
-                return redirect('home')  # Replace 'home' with your desired URL name
+                # Redirect to the login page after successful registration
+                return redirect('login')  # Replace 'login' with the actual name of your login URL
     else:
         form = StudentRegistrationForm()
 
