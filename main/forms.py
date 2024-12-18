@@ -2,7 +2,32 @@ from django import forms
 from .models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-# forms.py
+
+class StudentRegistrationForm(forms.Form):
+    first_name = forms.CharField(max_length=50)
+    last_name = forms.CharField(max_length=50)
+    student_id = forms.CharField(max_length=20)
+    username = forms.CharField(max_length=50)
+    password = forms.CharField(widget=forms.PasswordInput)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        first_name = cleaned_data.get('first_name')
+        last_name = cleaned_data.get('last_name')
+        student_id = cleaned_data.get('student_id')
+
+        # Check if the student exists in the Student database
+        try:
+            student = Student.objects.get(
+                first_name=first_name,
+                last_name=last_name,
+                student_id=student_id
+            )
+            self.cleaned_data['student'] = student
+        except Student.DoesNotExist:
+            raise forms.ValidationError("No matching student found in the database.")
+        
+        return cleaned_data
 
 
 class CustomRegistrationForm(forms.ModelForm):
