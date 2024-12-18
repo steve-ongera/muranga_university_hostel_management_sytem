@@ -1,0 +1,6 @@
+<h1>Hostels</h1>
+<ul>
+    {% for hostel in hostels %}
+        <li><a href="{% url 'room_list' hostel.id %}">{{ hostel.name }}</a></li>
+    {% endfor %}
+</ul>

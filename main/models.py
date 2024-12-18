@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Student(models.Model):
     GENDER_CHOICES = [
@@ -149,3 +150,21 @@ class MaintenanceRequest(models.Model):
 
     def __str__(self):
         return f"{self.room.room_number} - {self.status}"
+
+
+class BedBooking(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bed_bookings")
+    hostel = models.ForeignKey('Hostel', on_delete=models.CASCADE, related_name="bed_bookings")
+    room = models.ForeignKey('Room', on_delete=models.CASCADE, related_name="bed_bookings")
+    bed = models.ForeignKey('Bed', on_delete=models.CASCADE, related_name="bed_bookings")
+    date_booked = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+
+    def save(self, *args, **kwargs):
+        if not self.bed.is_occupied:
+            self.bed.is_occupied = True
+            self.bed.save()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Bed {self.bed.bed_number} in Room {self.room.room_number}, Hostel {self.hostel.name} booked by {self.student.username}"

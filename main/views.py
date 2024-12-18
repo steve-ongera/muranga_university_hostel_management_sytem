@@ -504,3 +504,65 @@ def delete_hostel(request, hostel_id):
         hostel.delete()
         return redirect('hostel_list')
     return render(request, 'hostels/confirm_delete.html', {'hostel': hostel})
+
+
+# View to list all hostels
+def bookings_hostel_list(request):
+    hostels = Hostel.objects.all()
+    return render(request, 'bookings/hostel_list.html', {'hostels': hostels})
+
+# View to see rooms in a selected hostel
+def bookings_room_list(request, hostel_id):
+    hostel = get_object_or_404(Hostel, id=hostel_id)
+    rooms = Room.objects.filter(hostel=hostel)
+    return render(request, 'bookings/room_list.html', {'hostel': hostel, 'rooms': rooms})
+
+# View to see available beds in a selected room
+def bookings_bed_list(request, room_id):
+    room = get_object_or_404(Room, id=room_id)
+    beds = Bed.objects.filter(room=room, is_occupied=False)
+    return render(request, 'bookings/bed_list.html', {'room': room, 'beds': beds})
+
+
+def bookings_book_bed(request, bed_id):
+    bed = get_object_or_404(Bed, id=bed_id)
+    context = {
+        'bed': bed,
+    }
+    return render(request, 'bookings/view_bed.html', context)
+
+
+def book_bed(request, bed_id):
+    # Fetch the selected bed
+    bed = get_object_or_404(Bed, id=bed_id, is_occupied=False)
+
+    if request.method == 'POST':
+        form = BedBookingForm(request.POST, student=request.user)
+        if form.is_valid():
+            booking = form.save(commit=False)
+            booking.student = request.user  # Link the booking to the student
+            booking.bed = bed  # Set the bed
+            booking.room = bed.room  # Set the room
+            booking.save()
+
+            # Mark the bed as occupied
+            bed.is_occupied = True
+            bed.save()
+
+            return redirect('booking_success')
+    else:
+        form = BedBookingForm(
+            initial={
+                'hostel': bed.room.hostel,
+                'room': bed.room,
+                'bed': bed,
+            },
+            student=request.user
+        )
+
+    return render(request, 'bookings/book_bed.html', {'form': form, 'bed': bed})
+
+
+
+def booking_success(request):
+    return render(request, 'bookings/booking_success.html')

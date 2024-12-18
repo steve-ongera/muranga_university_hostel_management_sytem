@@ -61,5 +61,16 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
     path('admin_dashboard/', views.dashboard, name='admin_dashboard'),
     path('student_register/', views.student_register, name='student_register'),
+    # URL for listing all hostels
+
+    path('bookings_hostels/', views.bookings_hostel_list, name='hostel_list'),
+    path('bookings_hostels/<int:hostel_id>/rooms/', views.bookings_room_list, name='room_list'),
+    path('bookings_rooms/<int:room_id>/beds/', views.bookings_bed_list, name='bed_list'),
+    path('bookings_beds/<int:bed_id>/book/', views.bookings_book_bed, name='book_bed'),
+    path('book-bed/', views.book_bed, name='book_bed'),  # Without bed preselected
+    path('book-bed/<int:bed_id>/', views.book_bed, name='book_bed_with_id'),  # With bed preselected
+    path('booking-success/', views.booking_success, name='booking_success'),
+
+    #path('view-bed/<int:bed_id>/', views.view_bed, name='view_bed'),
     
 ]

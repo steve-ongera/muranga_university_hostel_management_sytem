@@ -1,0 +1,6 @@
+<h1>Rooms in {{ hostel.name }}</h1>
+<ul>
+    {% for room in rooms %}
+        <li><a href="{% url 'bed_list' room.id %}">{{ room.room_number }}</a></li>
+    {% endfor %}
+</ul>

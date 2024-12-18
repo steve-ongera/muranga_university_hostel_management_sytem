@@ -137,3 +137,23 @@ class HostelForm(forms.ModelForm):
     class Meta:
         model = Hostel
         fields = ['name', 'location', 'total_rooms', 'warden']
+
+
+from django import forms
+from .models import BedBooking, Bed
+
+class BedBookingForm(forms.ModelForm):
+    class Meta:
+        model = BedBooking
+        fields = ['hostel', 'room', 'bed']  # Include the necessary fields
+        widgets = {
+            'room': forms.HiddenInput(),
+            'bed': forms.HiddenInput(),
+        }
+
+    def __init__(self, *args, **kwargs):
+        self.student = kwargs.pop('student', None)
+        super().__init__(*args, **kwargs)
+
+        # Set room and bed as readonly if needed
+        self.fields['hostel'].widget.attrs['readonly'] = True

@@ -1,0 +1,8 @@
+<h2>Book Bed</h2>
+<p>You're booking: {{ bed.room.hostel.name }} - Room {{ bed.room.room_number }} - Bed {{ bed.id }}</p>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Confirm Booking</button>
+</form>

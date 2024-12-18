@@ -1,0 +1,9 @@
+<h1>Available Beds in {{ room.room_number }}</h1>
+<ul>
+    {% for bed in beds %}
+        <li>
+            Bed {{ bed.bed_number }} 
+            <a href="{% url 'book_bed' bed.id %}">Book this bed</a>
+        </li>
+    {% endfor %}
+</ul>
