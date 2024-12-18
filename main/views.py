@@ -6,6 +6,40 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import authenticate, login as auth_login
 from .forms import CustomRegistrationForm, CustomLoginForm
 
+
+from django.contrib import messages
+
+#student registration into the system 
+
+def student_register(request):
+    if request.method == "POST":
+        form = StudentRegistrationForm(request.POST)
+        if form.is_valid():
+            student = form.cleaned_data['student']
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+
+            # Check if a user with this username already exists
+            if User.objects.filter(username=username).exists():
+                messages.error(request, "Username already taken.")
+            else:
+                # Create a new user account
+                user = User.objects.create_user(
+                    username=username,
+                    password=password,
+                    first_name=student.first_name,
+                    last_name=student.last_name
+                )
+                # Log in the user
+                login(request, user)
+                messages.success(request, "Account created successfully. You are now logged in.")
+                return redirect('home')  # Replace 'home' with your desired URL name
+    else:
+        form = StudentRegistrationForm()
+
+    return render(request, 'auth/student_register.html', {'form': form})
+
+
 # Registration View
 def register(request):
     if request.method == 'POST':
