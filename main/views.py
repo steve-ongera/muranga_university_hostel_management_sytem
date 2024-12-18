@@ -109,15 +109,7 @@ def custom_logout(request):
     return redirect('login')
 
 # Student views
-def student_register(request):
-    if request.method == "POST":
-        form = StudentForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('student_list')
-    else:
-        form = StudentForm()
-    return render(request, 'students/register.html', {'form': form})
+
 
 def student_list(request):
     students = Student.objects.all()
