@@ -17,9 +17,19 @@ class Student(models.Model):
     profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
     room = models.ForeignKey('Room', on_delete=models.SET_NULL, null=True, blank=True)
     date_registered = models.DateTimeField(auto_now_add=True)
+    
+    # Add the username field
+    username = models.CharField(max_length=20,  blank=True)
+
+    def save(self, *args, **kwargs):
+        # Set the username to student_id if it's not already set
+        if not self.username:
+            self.username = self.student_id
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.student_id})"
+
 
 class Hostel(models.Model):
     name = models.CharField(max_length=100, unique=True)

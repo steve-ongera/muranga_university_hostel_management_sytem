@@ -31,6 +31,13 @@ class StudentRegistrationForm(forms.Form):
         return cleaned_data
 
 
+class StudentProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = '__all__'
+
+
+
 class CustomRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     confirm_password = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")

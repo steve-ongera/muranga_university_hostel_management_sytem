@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import authenticate, login as auth_login
 from .forms import CustomRegistrationForm, CustomLoginForm
+from django.contrib.auth.decorators import login_required
 
 
 from django.contrib import messages
@@ -16,31 +17,69 @@ def student_register(request):
         form = StudentRegistrationForm(request.POST)
         if form.is_valid():
             student = form.cleaned_data['student']
-            username = form.cleaned_data['username']
+            student_id = student.student_id  # Use the student_id as the username
             password = form.cleaned_data['password']
             email = form.cleaned_data['email']
 
-            # Check if a user with this username already exists
-            if User.objects.filter(username=username).exists():
-                messages.error(request, "Username already taken.")
+            # Check if a user with this student_id already exists
+            if User.objects.filter(username=student_id).exists():
+                messages.error(request, "A user with this student ID already exists.")
             else:
-                # Create a new user account
+                # Create a new user account with the student_id as the username
                 user = User.objects.create_user(
-                    username=username,
+                    username=student_id,  # Set username as student_id
                     password=password,
                     first_name=student.first_name,
                     last_name=student.last_name,
                     email=email
                 )
-                # Log in the user
-                #login(request, user)
+                
                 messages.success(request, "Account created successfully. You are now logged in.")
-                # Redirect to the login page after successful registration
-                return redirect('login')  # Replace 'login' with the actual name of your login URL
+                
+                # Redirect to the login page or dashboard
+                return redirect('login')  # Replace 'login' with your actual login URL name
     else:
         form = StudentRegistrationForm()
 
     return render(request, 'auth/student_register.html', {'form': form})
+
+@login_required
+def student_dashboard(request):
+    # Get the currently logged-in user
+    user = request.user
+    
+    try:
+        # Fetch student data based on the logged-in user
+        student = Student.objects.get(student_id=user.username)  # Assuming username is student_id
+        
+        context = {
+            'student': student,
+            'user': user,
+        }
+        return render(request, 'student_dashboard.html', context)
+    except Student.DoesNotExist:
+        messages.error(request, "Student information not found.")
+        return redirect('login')  # Redirect to home or any other page
+    
+
+def update_profile(request):
+    user = request.user
+    try:
+        student = Student.objects.get(student_id=user.username)
+    except Student.DoesNotExist:
+        messages.error(request, "Student information not found.")
+        return redirect('student_dashboard')
+
+    if request.method == 'POST':
+        form = StudentProfileUpdateForm(request.POST, request.FILES, instance=student)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully!")
+            return redirect('student_dashboard')
+    else:
+        form = StudentProfileUpdateForm(instance=student)
+
+    return render(request, 'students/update_profile.html', {'form': form})
 
 
 # Registration View

@@ -9,6 +9,8 @@ urlpatterns = [
     path('students/detail/<int:student_id>/', views.student_detail, name='student_detail'),
     path('students/update/<int:student_id>/', views.update_student, name='update_student'),
     path('students/delete/<int:student_id>/', views.delete_student, name='delete_student'),
+    path('student/dashboard/', views.student_dashboard, name='student_dashboard'),
+    path('student/update_profile/', views.update_profile, name='update_profile'),
 
     # Room URLs
     path('rooms/', views.room_list, name='room_list'),
