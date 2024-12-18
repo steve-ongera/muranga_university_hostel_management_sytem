@@ -32,13 +32,19 @@ class Student(models.Model):
 
 
 class Hostel(models.Model):
+    GENDER_CHOICES = [
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+    ]
+    
     name = models.CharField(max_length=100, unique=True)
     location = models.CharField(max_length=150)
     total_rooms = models.PositiveIntegerField()
     warden = models.CharField(max_length=100)
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES)  # Gender of the students allowed to stay in this hostel
 
     def __str__(self):
-        return self.name
+        return f" Hostel :  {self.name} for  {self.gender}"
 
 
 class Room(models.Model):
