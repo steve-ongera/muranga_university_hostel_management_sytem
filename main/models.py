@@ -39,16 +39,29 @@ class Room(models.Model):
     ]
 
     room_number = models.CharField(max_length=10, unique=True)
-    capacity = models.PositiveIntegerField()
-    current_occupants = models.PositiveIntegerField(default=0)
+    capacity = models.PositiveIntegerField(default=4)  # Default to 4 beds
     room_type = models.CharField(max_length=10, choices=ROOM_TYPE_CHOICES)
     hostel = models.ForeignKey('Hostel', on_delete=models.CASCADE)
 
     def __str__(self):
         return f"Room {self.room_number} in {self.hostel.name}"
 
+    def available_beds(self):
+        """Return the number of available beds in the room."""
+        return self.beds.filter(is_occupied=False).count()
+
     def is_full(self):
-        return self.current_occupants >= self.capacity
+        """Check if all beds in the room are occupied."""
+        return self.available_beds() == 0
+
+
+class Bed(models.Model):
+    bed_number = models.PositiveIntegerField()
+    room = models.ForeignKey(Room, related_name='beds', on_delete=models.CASCADE)
+    is_occupied = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Bed {self.bed_number} in {self.room.room_number}"
 
 
 

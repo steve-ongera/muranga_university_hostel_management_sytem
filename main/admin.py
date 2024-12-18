@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Student, Room, Hostel, FeePayment, Complaint, Staff, BedAllocation, Visitor, MaintenanceRequest
+from .models import *
 
 admin.site.register(Student)
 admin.site.register(Room)
@@ -10,3 +10,4 @@ admin.site.register(Staff)
 admin.site.register(BedAllocation)
 admin.site.register(Visitor)
 admin.site.register(MaintenanceRequest)
+admin.site.register(Bed)
