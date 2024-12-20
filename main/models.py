@@ -135,6 +135,7 @@ class BedAllocation(models.Model):
 
 
 from datetime import datetime, timedelta, time
+from django.db import models
 from django.utils.timezone import now
 
 class Visitor(models.Model):
@@ -145,6 +146,8 @@ class Visitor(models.Model):
     check_in_time = models.TimeField(default=time(12, 0))  # Default time set to 12:00 PM
     check_out_time = models.TimeField(blank=True, null=True)
     purpose = models.TextField()
+    penalty = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)  # Track penalties
+    checked_out = models.BooleanField(default=False)  # Checkbox to indicate if the visitor has checked out
 
     def save(self, *args, **kwargs):
         # Ensure `date_of_visit` is never None by defaulting to today's date
@@ -161,10 +164,24 @@ class Visitor(models.Model):
             else:
                 self.check_out_time = auto_checkout_time.time()
 
+        # If visitor hasn't checked out, calculate the penalty
+        if not self.checked_out:
+            max_checkout_time = time(22, 0)  # 10:00 PM
+            check_out_datetime = datetime.combine(self.date_of_visit, self.check_out_time)
+            max_checkout_datetime = datetime.combine(self.date_of_visit, max_checkout_time)
+
+            # If check-out is after the max allowed time, apply penalty
+            if check_out_datetime > max_checkout_datetime:
+                hours_late = (check_out_datetime - max_checkout_datetime).seconds // 3600  # Calculate hours late
+                self.penalty = hours_late * 10.00  # Example: 10 units per hour late
+            else:
+                self.penalty = 0.00  # No penalty if checked out on time
+
         super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.name} visiting {self.student.student_id}"
+
 
 
 
