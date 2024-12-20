@@ -160,6 +160,13 @@ class BedBooking(models.Model):
     date_booked = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
 
+    email = models.EmailField(blank=True, null=True)
+    phone_number = models.CharField(max_length=15 , blank=True, null=True)
+    registration_number = models.CharField(max_length=20 , blank=True, null=True)
+    full_name = models.CharField(max_length=100 , blank=True, null=True)
+    national_id = models.CharField(max_length=20, blank=True, null=True)  # Optional field
+    amount = models.DecimalField(max_digits=10, decimal_places=2 , blank=True, null=True)
+
     def save(self, *args, **kwargs):
         if not self.bed.is_occupied:
             self.bed.is_occupied = True
