@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Submit a Maintenance Request</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% if room %}
+            <input type="hidden" name="room_id" value="{{ room.id }}">
+            <div class="form-group">
+                <label for="room">Room</label>
+                <input type="text" id="room" class="form-control" value="{{ room.room_number }}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="issue_description">Issue Description</label>
+                <textarea id="issue_description" name="issue_description" class="form-control" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="priority">Priority</label>
+                <select id="priority" name="priority" class="form-control" required>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Request</button>
+        {% else %}
+            <p>You are not assigned to a room. Please contact administration for assistance.</p>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

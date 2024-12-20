@@ -641,3 +641,33 @@ def search_student_view(request):
         )
     
     return render(request, 'students/search_student.html', {'students': students, 'query': query})
+
+#mentenance
+@login_required
+def submit_maintenance_request(request):
+    if request.method == 'POST':
+        room_id = request.POST.get('room_id')
+        issue_description = request.POST.get('issue_description')
+        priority = request.POST.get('priority')
+
+        # Validate input
+        if not issue_description or not priority:
+            messages.error(request, "Please fill in all the fields.")
+            return redirect('submit_maintenance_request')
+
+        try:
+            room = Room.objects.get(id=room_id, student__id=request.user.id)
+            MaintenanceRequest.objects.create(
+                room=room,
+                issue_description=issue_description,
+                priority=priority,
+            )
+            messages.success(request, "Your maintenance request has been submitted.")
+            return redirect('submit_maintenance_request')
+        except Room.DoesNotExist:
+            messages.error(request, "You do not have a valid room assignment.")
+            return redirect('submit_maintenance_request')
+
+    # Fetch the student's room (assuming one-to-one relationship)
+    room = Room.objects.filter(student__id=request.user.id).first()
+    return render(request, 'maintenance/submit_maintenance_request.html', {'room': room})
