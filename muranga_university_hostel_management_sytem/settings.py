@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-t62^@p6z04@53v391zyp*i)d)d$s7nqnf9qtz*y5tun&4@p)w1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', 'https://e54d-2c0f-6300-201-900-9cc3-7d5c-7cdb-b23a.ngrok-free.app']
+ALLOWED_HOSTS = ['*', 'https://ae51-2c0f-6300-201-900-14ec-208b-6c37-45aa.ngrok-free.app']
 
 
 # Application definition
@@ -31,7 +31,7 @@ INSTALLED_APPS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://e54d-2c0f-6300-201-900-9cc3-7d5c-7cdb-b23a.ngrok-free.app',
+    'https://ae51-2c0f-6300-201-900-14ec-208b-6c37-45aa.ngrok-free.app',
 ]
 
 
@@ -129,3 +129,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'instagramkenyaone@gmail.com'
+EMAIL_HOST_PASSWORD = 'nspg dnwd txva pvjl'

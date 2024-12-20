@@ -532,6 +532,11 @@ def bookings_book_bed(request, bed_id):
     return render(request, 'bookings/view_bed.html', context)
 
 
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Bed
+from .forms import BedBookingForm
+from .utils import send_bed_booking_receipt_email
+
 def book_bed(request, bed_id):
     # Fetch the selected bed
     bed = get_object_or_404(Bed, id=bed_id, is_occupied=False)
@@ -549,6 +554,9 @@ def book_bed(request, bed_id):
             bed.is_occupied = True
             bed.save()
 
+            # Send email with receipt PDF
+            send_bed_booking_receipt_email(booking)
+
             return redirect('booking_success')
     else:
         form = BedBookingForm(
@@ -561,6 +569,7 @@ def book_bed(request, bed_id):
         )
 
     return render(request, 'bookings/book_bed.html', {'form': form, 'bed': bed})
+
 
 
 
