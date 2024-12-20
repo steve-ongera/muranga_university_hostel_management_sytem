@@ -15,7 +15,7 @@ def generate_bed_booking_receipt_pdf(booking):
     """
     Generates a professional PDF receipt for bed booking.
     """
-    pdf_filename = f"BedBooking_{booking.id}_{booking.student.first_name.replace(' ', '_')}_receipt.pdf"
+    pdf_filename = f"BedBooking_{booking.booking_id}_{booking.student.first_name.replace(' ', '_')}_receipt.pdf"
     buffer = BytesIO()
     doc = SimpleDocTemplate(buffer, pagesize=letter)
     styles = getSampleStyleSheet()
@@ -44,8 +44,9 @@ def generate_bed_booking_receipt_pdf(booking):
 
     # Booking details
     details_table_data = [
-        ['Booking ID', f"# {booking.id}"],
-        ['Student Name', booking.student.first_name],
+        ['Booking ID', f"# {booking.booking_id}"],
+        ['Student Name', f"{booking.student.first_name} {booking.student.last_name}"],
+        ['Registration Number', booking.registration_number],
         ['Email', booking.student.email],
         ['Hostel', booking.hostel.name],
         ['Room', booking.room.room_number], 
@@ -68,7 +69,7 @@ def generate_bed_booking_receipt_pdf(booking):
     elements.append(Spacer(1, 12))
 
     # Add QR code
-    qr_code = qr.QrCodeWidget(f"Booking ID: {booking.id} | Student: {booking.student.first_name} | Hostel: {booking.hostel.name}")
+    qr_code = qr.QrCodeWidget(f"Booking ID: {booking.booking_id} | Student: {booking.student.first_name} | Hostel: {booking.hostel.name}")
     qr_drawing = Drawing(2 * inch, 2 * inch)
     qr_drawing.add(qr_code)
     elements.append(qr_drawing)
@@ -91,16 +92,16 @@ def send_bed_booking_receipt_email(booking):
 
     subject = f"Booking Confirmation - {booking.hostel.name}"
     message = f"""
-    Dear {booking.student.first_name},
+    Dear {booking.student.first_name} {booking.student.last_name},
 
     Thank you for booking a bed in {booking.hostel.name}.
     Please find your receipt attached to this email.
 
     Booking Details:
-    - Booking ID: {booking.id}
+    - Booking ID: {booking.booking_id}
     - Hostel: {booking.hostel.name}
-    - Room: { booking.room.room_number }
-    - Bed: {booking.bed.bed_number}
+    - Room No: { booking.room.room_number }
+    - Bed No: {booking.bed.bed_number}
     - Amount Paid: KSH {booking.amount}
 
     If you have any questions, feel free to contact us.

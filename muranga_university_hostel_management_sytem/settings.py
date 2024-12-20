@@ -138,5 +138,5 @@ EMAIL_USE_TLS = True
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'instagramkenyaone@gmail.com'
-EMAIL_HOST_PASSWORD = 'nspg dnwd txva pvjl'
+EMAIL_HOST_USER = 'innovationhubsoftwaresltd@gmail.com'
+EMAIL_HOST_PASSWORD = 'wtzg mvcn ztoe qige'
