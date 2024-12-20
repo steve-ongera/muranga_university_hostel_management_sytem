@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 import random
 import string
+from datetime import datetime, timedelta, time
 
 
 class Student(models.Model):
@@ -136,12 +137,27 @@ class BedAllocation(models.Model):
 class Visitor(models.Model):
     name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=15)
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    date_of_visit = models.DateField()
+    student = models.ForeignKey('Student', on_delete=models.CASCADE)
+    date_of_visit = models.DateField(auto_now_add=True)
+    check_in_time = models.TimeField(default=time(12, 0))  # Default time set to 12:00 PM
+    check_out_time = models.TimeField(blank=True, null=True)
     purpose = models.TextField()
+
+    def save(self, *args, **kwargs):
+        # Automatically set checkout time to be no later than 10:00 PM
+        if not self.check_out_time:
+            max_checkout_time = time(22, 0)  # 10:00 PM
+            check_in_datetime = datetime.combine(self.date_of_visit, self.check_in_time)
+            auto_checkout_time = check_in_datetime + timedelta(hours=2)  # Default stay duration of 2 hours
+            if auto_checkout_time.time() > max_checkout_time:
+                self.check_out_time = max_checkout_time
+            else:
+                self.check_out_time = auto_checkout_time.time()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.name} visiting {self.student.student_id}"
+
 
 
 class MaintenanceRequest(models.Model):

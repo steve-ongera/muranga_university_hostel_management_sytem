@@ -118,8 +118,7 @@ class MaintenanceRequestForm(forms.ModelForm):
 class VisitorForm(forms.ModelForm):
     class Meta:
         model = Visitor
-        fields = ['name', 'phone_number', 'student', 'date_of_visit', 'purpose']        
-
+        exclude = ['date_of_visit', 'check_in_time', 'check_out_time']
 
 class BedAllocationForm(forms.ModelForm):
     class Meta:
