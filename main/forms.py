@@ -139,8 +139,6 @@ class HostelForm(forms.ModelForm):
         fields = ['name', 'location', 'total_rooms', 'warden']
 
 
-from django import forms
-from .models import BedBooking, Bed
 
 class BedBookingForm(forms.ModelForm):
     class Meta:
