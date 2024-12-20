@@ -1,0 +1,52 @@
+<h1>Search Booking</h1>
+
+<form id="search-form">
+    <label for="booking-id">Enter Booking ID:</label>
+    <input type="text" id="booking-id" name="booking_id" placeholder="Enter booking ID" required>
+    <button type="submit">Search</button>
+</form>
+
+<div id="results" style="margin-top: 20px; display: none;">
+    <h3>Booking Details</h3>
+    <p><strong>Booking ID:</strong> <span id="result-booking-id"></span></p>
+    <p><strong>Full Name:</strong> <span id="result-full-name"></span></p>
+    <p><strong>Email:</strong> <span id="result-email"></span></p>
+    <p><strong>Phone Number:</strong> <span id="result-phone-number"></span></p>
+    <p><strong>Hostel:</strong> <span id="result-hostel"></span></p>
+    <p><strong>Room:</strong> <span id="result-room"></span></p>
+    <p><strong>Bed:</strong> <span id="result-bed"></span></p>
+    <p><strong>Amount:</strong> <span id="result-amount"></span></p>
+    <p><strong>Date Booked:</strong> <span id="result-date-booked"></span></p>
+    <p><strong>Is Active:</strong> <span id="result-is-active"></span></p>
+</div>
+
+<script>
+document.getElementById('search-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const bookingId = document.getElementById('booking-id').value;
+
+    fetch(`/search-booking/?booking_id=${bookingId}`, {
+        headers: { "X-Requested-With": "XMLHttpRequest" }
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('results').style.display = 'block';
+                document.getElementById('result-booking-id').textContent = data.booking_id;
+                document.getElementById('result-full-name').textContent = data.full_name;
+                document.getElementById('result-email').textContent = data.email;
+                document.getElementById('result-phone-number').textContent = data.phone_number;
+                document.getElementById('result-hostel').textContent = data.hostel;
+                document.getElementById('result-room').textContent = data.room;
+                document.getElementById('result-bed').textContent = data.bed;
+                document.getElementById('result-amount').textContent = data.amount;
+                document.getElementById('result-date-booked').textContent = data.date_booked;
+                document.getElementById('result-is-active').textContent = data.is_active ? 'Yes' : 'No';
+            } else {
+                alert(data.error);
+                document.getElementById('results').style.display = 'none';
+            }
+        })
+        .catch(error => console.error('Error:', error));
+});
+</script>

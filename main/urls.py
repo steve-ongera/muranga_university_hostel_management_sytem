@@ -70,7 +70,8 @@ urlpatterns = [
     path('book-bed/', views.book_bed, name='book_bed'),  # Without bed preselected
     path('book-bed/<int:bed_id>/', views.book_bed, name='book_bed_with_id'),  # With bed preselected
     path('booking-success/', views.booking_success, name='booking_success'),
-
-    #path('view-bed/<int:bed_id>/', views.view_bed, name='view_bed'),
+    #search 
+    path('search-booking/', views.search_booking_view, name='search_booking'),
+    path('search-student/', views.search_student_view, name='search_student'),
     
 ]

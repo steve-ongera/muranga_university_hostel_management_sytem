@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import authenticate, login as auth_login
 from .forms import CustomRegistrationForm, CustomLoginForm
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 
 from django.contrib import messages
@@ -592,3 +593,51 @@ def book_bed(request, bed_id):
 
 def booking_success(request):
     return render(request, 'bookings/booking_success.html')
+
+
+def search_booking_view(request):
+    if request.method == "GET" and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        booking_id = request.GET.get('booking_id')
+        if booking_id:
+            try:
+                booking = get_object_or_404(BedBooking, booking_id=booking_id)
+                # Return booking details as JSON
+                data = {
+                    "success": True,
+                    "booking_id": booking.booking_id,
+                    "full_name": booking.full_name,
+                    "email": booking.email,
+                    "phone_number": booking.phone_number,
+                    "hostel": booking.hostel.name,
+                    "room": booking.room.room_number,
+                    "bed": booking.bed.bed_number,
+                    "amount": str(booking.amount),
+                    "date_booked": booking.date_booked.strftime('%Y-%m-%d %H:%M:%S'),
+                    "is_active": booking.is_active,
+                }
+            except BedBooking.DoesNotExist:
+                data = {"success": False, "error": "Booking not found"}
+        else:
+            data = {"success": False, "error": "No booking ID provided"}
+        return JsonResponse(data)
+    
+    # Render the template for non-AJAX requests
+    return render(request, 'bookings/search_booking.html')
+
+
+def search_student_view(request):
+    query = request.GET.get('query', '').strip()
+    students = None
+    
+    if query:
+        students = Student.objects.filter(
+            student_id__icontains=query
+        ) | Student.objects.filter(
+            first_name__icontains=query
+        ) | Student.objects.filter(
+            last_name__icontains=query
+        ) | Student.objects.filter(
+            email__icontains=query
+        )
+    
+    return render(request, 'students/search_student.html', {'students': students, 'query': query})

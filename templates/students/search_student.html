@@ -1,0 +1,45 @@
+<h1>Search Students</h1>
+
+<form method="get" action="{% url 'search_student' %}">
+    <label for="query">Search by Student ID, Name, or Email:</label>
+    <input
+        type="text"
+        id="query"
+        name="query"
+        value="{{ query|default:'' }}"
+        placeholder="Enter search query"
+    />
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+{% if students is not None %}
+    <h2>Search Results</h2>
+    {% if students.exists %}
+        <ul>
+            {% for student in students %}
+                <li>
+                    {% if student.profile_picture %}
+                        <img
+                            src="{{ student.profile_picture.url }}"
+                            alt="Profile Picture"
+                            width="50"
+                            height="50"
+                        />
+                    {% else %}
+                        <img
+                            src="/static/default_profile.png"
+                            alt="Default Profile Picture"
+                            width="50"
+                            height="50"
+                        />
+                    {% endif %}
+                    {{ student.first_name }} {{ student.last_name }} 
+                    (ID: {{ student.student_id }})
+                    <br>Email: {{ student.email }} | Phone: {{ student.phone_number }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No students found matching your query.</p>
+    {% endif %}
+{% endif %}
