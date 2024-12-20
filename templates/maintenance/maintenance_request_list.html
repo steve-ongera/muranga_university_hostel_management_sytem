@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Your Maintenance Requests</h2>
+
+    {% if maintenance_requests %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Room</th>
+                    <th>Issue Description</th>
+                    <th>Date Reported</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in maintenance_requests %}
+                    <tr>
+                        <td>{{ request.room.room_number }}</td>
+                        <td>{{ request.issue_description }}</td>
+                        <td>{{ request.date_reported|date:"F j, Y, g:i a" }}</td>
+                        <td>{{ request.priority|capfirst }}</td>
+                        <td>{{ request.status }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You have not submitted any maintenance requests.</p>
+    {% endif %}
+</div>
+{% endblock %}

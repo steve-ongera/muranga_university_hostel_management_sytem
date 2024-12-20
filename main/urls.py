@@ -33,6 +33,7 @@ urlpatterns = [
     path('maintenance/delete/<int:request_id>/', views.delete_maintenance_request, name='delete_maintenance_request'),
     #students mentenance urls
     path('submit-maintenance-request/', views.submit_maintenance_request, name='submit_maintenance_request'),
+    path('maintenance-requests/', views.maintenance_request_list, name='maintenance_request_list'),
     
     #visitors
     path('visitors/', views.visitor_list, name='visitor_list'),

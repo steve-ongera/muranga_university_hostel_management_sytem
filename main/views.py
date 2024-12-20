@@ -643,31 +643,49 @@ def search_student_view(request):
     return render(request, 'students/search_student.html', {'students': students, 'query': query})
 
 #mentenance
+
 @login_required
 def submit_maintenance_request(request):
-    if request.method == 'POST':
-        room_id = request.POST.get('room_id')
+    try:
+        # Get the Student instance using the username of the logged-in user
+        student = get_object_or_404(Student, student_id=request.user.username)
+
+        # Get the room assigned to the student
+        room = Room.objects.get(student=student)
+    except Room.DoesNotExist:
+        room = None
+
+    if request.method == "POST":
+        if not room:
+            messages.error(request, "You are not assigned to a room.")
+            return redirect('submit_maintenance_request')
+
+        # Process the form data
         issue_description = request.POST.get('issue_description')
         priority = request.POST.get('priority')
 
-        # Validate input
-        if not issue_description or not priority:
-            messages.error(request, "Please fill in all the fields.")
-            return redirect('submit_maintenance_request')
+        # Create the MaintenanceRequest
+        MaintenanceRequest.objects.create(
+            room=room,
+            issue_description=issue_description,
+            priority=priority,
+        )
 
-        try:
-            room = Room.objects.get(id=room_id, student__id=request.user.id)
-            MaintenanceRequest.objects.create(
-                room=room,
-                issue_description=issue_description,
-                priority=priority,
-            )
-            messages.success(request, "Your maintenance request has been submitted.")
-            return redirect('submit_maintenance_request')
-        except Room.DoesNotExist:
-            messages.error(request, "You do not have a valid room assignment.")
-            return redirect('submit_maintenance_request')
+        messages.success(request, "Maintenance request submitted successfully.")
+        return redirect('submit_maintenance_request')
 
-    # Fetch the student's room (assuming one-to-one relationship)
-    room = Room.objects.filter(student__id=request.user.id).first()
     return render(request, 'maintenance/submit_maintenance_request.html', {'room': room})
+
+
+#maintenance request list of the user
+@login_required
+def maintenance_request_list(request):
+    try:
+        # Get the Student instance using the username of the logged-in user
+        student = Student.objects.get(student_id=request.user.username)
+        # Fetch all maintenance requests related to the student's room
+        maintenance_requests = MaintenanceRequest.objects.filter(room__student=student).order_by('-date_reported')
+    except Student.DoesNotExist:
+        maintenance_requests = []
+
+    return render(request, 'maintenance/maintenance_request_list.html', {'maintenance_requests': maintenance_requests})
