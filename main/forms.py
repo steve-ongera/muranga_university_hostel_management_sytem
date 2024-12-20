@@ -143,7 +143,17 @@ class HostelForm(forms.ModelForm):
 class BedBookingForm(forms.ModelForm):
     class Meta:
         model = BedBooking
-        fields = ['hostel', 'room', 'bed']  # Include the necessary fields
+        fields = [
+            'hostel',
+            'room',
+            'bed',
+            'email',
+            'phone_number',
+            'registration_number',
+            'full_name',
+            'national_id',
+            'amount',
+        ] 
         widgets = {
             'room': forms.HiddenInput(),
             'bed': forms.HiddenInput(),
