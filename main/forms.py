@@ -140,6 +140,9 @@ class HostelForm(forms.ModelForm):
 
 
 
+from django import forms
+from .models import BedBooking
+
 class BedBookingForm(forms.ModelForm):
     class Meta:
         model = BedBooking
@@ -157,11 +160,12 @@ class BedBookingForm(forms.ModelForm):
         widgets = {
             'room': forms.HiddenInput(),
             'bed': forms.HiddenInput(),
+            'hostel': forms.HiddenInput(),  # Make hostel field hidden in form but submit its value
         }
 
     def __init__(self, *args, **kwargs):
         self.student = kwargs.pop('student', None)
         super().__init__(*args, **kwargs)
 
-        # Set room and bed as readonly if needed
-        self.fields['hostel'].widget.attrs['readonly'] = True
+        # Pre-fill the hostel field with the current hostel value
+        self.fields['hostel'].initial = kwargs.get('hostel', None)

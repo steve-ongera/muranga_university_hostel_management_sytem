@@ -9,6 +9,8 @@
         - {{ hostel.location }}
         <a href="{% url 'update_hostel' hostel.id %}">Edit</a>
         <a href="{% url 'delete_hostel' hostel.id %}">Delete</a>
+
+        <p>Available Rooms: {{ hostel.available_rooms_count }}</p>
       </li>
     {% endfor %}
   </ul>

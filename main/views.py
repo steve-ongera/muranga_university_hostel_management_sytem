@@ -509,13 +509,27 @@ def delete_hostel(request, hostel_id):
 # View to list all hostels
 def bookings_hostel_list(request):
     hostels = Hostel.objects.all()
+    
+    # Get the number of rooms for each hostel
+    for hostel in hostels:
+        hostel.room_count = hostel.room_set.count()  # Count rooms in each hostel
+    
     return render(request, 'bookings/hostel_list.html', {'hostels': hostels})
+
 
 # View to see rooms in a selected hostel
 def bookings_room_list(request, hostel_id):
     hostel = get_object_or_404(Hostel, id=hostel_id)
     rooms = Room.objects.filter(hostel=hostel)
+    
+    # Calculate vacant beds for each room
+    for room in rooms:
+        vacant_beds = Bed.objects.filter(room=room, is_occupied=False).count()
+        room.vacant_beds = vacant_beds  # Attach the count of vacant beds to the room object
+
     return render(request, 'bookings/room_list.html', {'hostel': hostel, 'rooms': rooms})
+
+
 
 # View to see available beds in a selected room
 def bookings_bed_list(request, room_id):

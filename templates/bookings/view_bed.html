@@ -3,10 +3,11 @@
 <p><strong>Bed Number:</strong> {{ bed.bed_number }}</p>
 <p><strong>Room:</strong> {{ bed.room.room_number }}</p>
 <p><strong>Hostel:</strong> {{ bed.room.hostel.name }}</p>
-<p><strong>Occupied:</strong> {{ bed.is_occupied  }}</p>
+<p><strong>Occupied:</strong> {% if bed.is_occupied %}Booked{% else %}Vacant{% endif %}</p>
+
 
 {% if not bed.is_occupied %}
-    <a href="{% url 'book_bed' bed.id %}">Book this Bed</a>
+   
     <a href="{% url 'book_bed_with_id' bed.id %}">Book this Bed</a>
 
 {% else %}
