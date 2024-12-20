@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+import random
+import string
+
 
 class Student(models.Model):
     GENDER_CHOICES = [
@@ -161,16 +164,31 @@ class BedBooking(models.Model):
     is_active = models.BooleanField(default=True)
 
     email = models.EmailField(blank=True, null=True)
-    phone_number = models.CharField(max_length=15 , blank=True, null=True)
-    registration_number = models.CharField(max_length=20 , blank=True, null=True)
-    full_name = models.CharField(max_length=100 , blank=True, null=True)
+    phone_number = models.CharField(max_length=15, blank=True, null=True)
+    registration_number = models.CharField(max_length=20, blank=True, null=True)
+    full_name = models.CharField(max_length=100, blank=True, null=True)
     national_id = models.CharField(max_length=20, blank=True, null=True)  # Optional field
-    amount = models.DecimalField(max_digits=10, decimal_places=2 , blank=True, null=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    
+    booking_id = models.CharField(max_length=10, unique=True, blank=True, null=True)
+
+    def generate_booking_id(self):
+        """
+        Generates a unique 10-character alphanumeric booking ID.
+        """
+        return ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
 
     def save(self, *args, **kwargs):
+        # Automatically generate a unique booking_id if not set
+        if not self.booking_id:
+            self.booking_id = self.generate_booking_id()
+        
+        # Ensure the bed is marked as occupied
         if not self.bed.is_occupied:
             self.bed.is_occupied = True
             self.bed.save()
+
+        # Call the parent save method
         super().save(*args, **kwargs)
 
     def __str__(self):
