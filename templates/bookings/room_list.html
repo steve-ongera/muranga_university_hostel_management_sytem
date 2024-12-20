@@ -1,4 +1,5 @@
 <h1>Rooms in {{ hostel.name }}</h1>
+<h4>{{ total_vacant_beds }} Vacant Beds in {{ hostel.name }}</h4>
 <ul>
     {% for room in rooms %}
         <li><a href="{% url 'bed_list' room.id %}">{{ room.room_number }}</a>  <p>Vacant Beds: {{ room.vacant_beds }}</p></li>

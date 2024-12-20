@@ -521,13 +521,16 @@ def bookings_hostel_list(request):
 def bookings_room_list(request, hostel_id):
     hostel = get_object_or_404(Hostel, id=hostel_id)
     rooms = Room.objects.filter(hostel=hostel)
+
+    # Calculate the total number of vacant beds across all rooms in the hostel
+    total_vacant_beds = Bed.objects.filter(room__hostel=hostel, is_occupied=False).count()
     
     # Calculate vacant beds for each room
     for room in rooms:
         vacant_beds = Bed.objects.filter(room=room, is_occupied=False).count()
         room.vacant_beds = vacant_beds  # Attach the count of vacant beds to the room object
 
-    return render(request, 'bookings/room_list.html', {'hostel': hostel, 'rooms': rooms})
+    return render(request, 'bookings/room_list.html', {'hostel': hostel, 'rooms': rooms , 'total_vacant_beds': total_vacant_beds})
 
 
 
