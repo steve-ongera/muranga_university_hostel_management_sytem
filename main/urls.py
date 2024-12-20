@@ -41,6 +41,7 @@ urlpatterns = [
     path('visitors/detail/<int:visitor_id>/', views.visitor_detail, name='visitor_detail'),
     path('visitors/update/<int:visitor_id>/', views.update_visitor, name='update_visitor'),
     path('visitors/delete/<int:visitor_id>/', views.delete_visitor, name='delete_visitor'),
+    path('visitor-check-in/', views.visitor_check_in, name='visitor_check_in'),
     #bed alocation
     path('bed_allocations/', views.bed_allocation_list, name='bed_allocation_list'),
     path('bed_allocations/create/', views.create_bed_allocation, name='create_bed_allocation'),

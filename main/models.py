@@ -134,6 +134,9 @@ class BedAllocation(models.Model):
         return f"{self.student.student_id} - Bed {self.bed_number} in {self.room.room_number}"
 
 
+from datetime import datetime, timedelta, time
+from django.utils.timezone import now
+
 class Visitor(models.Model):
     name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=15)
@@ -144,15 +147,20 @@ class Visitor(models.Model):
     purpose = models.TextField()
 
     def save(self, *args, **kwargs):
-        # Automatically set checkout time to be no later than 10:00 PM
+        # Ensure `date_of_visit` is never None by defaulting to today's date
+        if not self.date_of_visit:
+            self.date_of_visit = now().date()
+
+        # Ensure check_out_time is automatically set
         if not self.check_out_time:
             max_checkout_time = time(22, 0)  # 10:00 PM
-            check_in_datetime = datetime.combine(self.date_of_visit, self.check_in_time)
+            check_in_datetime = datetime.combine(self.date_of_visit, self.check_in_time)  # Combine date and time
             auto_checkout_time = check_in_datetime + timedelta(hours=2)  # Default stay duration of 2 hours
             if auto_checkout_time.time() > max_checkout_time:
                 self.check_out_time = max_checkout_time
             else:
                 self.check_out_time = auto_checkout_time.time()
+
         super().save(*args, **kwargs)
 
     def __str__(self):

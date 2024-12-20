@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login as auth_login
 from .forms import CustomRegistrationForm, CustomLoginForm
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-
+from django.http import HttpResponse
 
 from django.contrib import messages
 
@@ -689,3 +689,19 @@ def maintenance_request_list(request):
         maintenance_requests = []
 
     return render(request, 'maintenance/maintenance_request_list.html', {'maintenance_requests': maintenance_requests})
+
+
+#visitor check in
+def visitor_check_in(request):
+    if request.method == 'POST':
+        form = VisitorForm(request.POST)
+        if form.is_valid():
+            visitor = form.save(commit=False)
+            # You can modify the visitor object if needed, for example:
+            # visitor.check_in_time = datetime.now().time()  # Optional: Set check-in time to the current time
+            visitor.save()
+            return HttpResponse("Visitor check-in successful.")
+    else:
+        form = VisitorForm()
+
+    return render(request, 'visitors/visitor_check_in.html', {'form': form})
