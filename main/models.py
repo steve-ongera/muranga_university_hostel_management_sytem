@@ -4,6 +4,20 @@ import random
 import string
 from datetime import datetime, timedelta, time
 
+class Intake(models.Model):
+    year = models.PositiveIntegerField()  # e.g., 2024
+    month = models.CharField(max_length=20)  # e.g., August, June, etc.
+    description = models.CharField(max_length=50, unique=True, blank=True)  # e.g., 2024 August intake
+
+    def save(self, *args, **kwargs):
+        # Automatically generate the description if not set
+        if not self.description:
+            self.description = f"{self.year} {self.month} intake"
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.description
+
 
 class Student(models.Model):
     GENDER_CHOICES = [
@@ -22,6 +36,7 @@ class Student(models.Model):
     profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
     room = models.ForeignKey('Room', on_delete=models.SET_NULL, null=True, blank=True)
     date_registered = models.DateTimeField(auto_now_add=True)
+    intake = models.ForeignKey('Intake', on_delete=models.CASCADE , null=True, blank=True)  # Associate the student with an intake
     
     # Add the username field
     username = models.CharField(max_length=20,  blank=True)
