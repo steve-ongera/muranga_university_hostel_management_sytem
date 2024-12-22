@@ -35,14 +35,14 @@ urlpatterns = [
     path('submit-maintenance-request/', views.submit_maintenance_request, name='submit_maintenance_request'),
     path('maintenance-requests/', views.maintenance_request_list, name='maintenance_request_list'),
     
-    #visitors
+    #visitors urls 
     path('visitors/', views.visitor_list, name='visitor_list'),
     path('visitors/create/', views.create_visitor, name='create_visitor'),
     path('visitors/detail/<int:visitor_id>/', views.visitor_detail, name='visitor_detail'),
     path('visitors/update/<int:visitor_id>/', views.update_visitor, name='update_visitor'),
     path('visitors/delete/<int:visitor_id>/', views.delete_visitor, name='delete_visitor'),
     path('visitor-check-in/', views.visitor_check_in, name='visitor_check_in'),
-    #bed alocation
+    #bed alocation urls
     path('bed_allocations/', views.bed_allocation_list, name='bed_allocation_list'),
     path('bed_allocations/create/', views.create_bed_allocation, name='create_bed_allocation'),
     path('bed_allocations/detail/<int:allocation_id>/', views.bed_allocation_detail, name='bed_allocation_detail'),
@@ -63,7 +63,7 @@ urlpatterns = [
     #auth
     path('register/', views.register, name='register'),
     path('', views.login, name='login'),
-    path('logout/', views.logout, name='logout'),
+    path('logout/', views.custom_logout, name='logout'),
     path('admin_dashboard/', views.dashboard, name='admin_dashboard'),
     path('student_register/', views.student_register, name='student_register'),
     # URL for listing all hostels
