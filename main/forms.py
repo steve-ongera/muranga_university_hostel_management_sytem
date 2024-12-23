@@ -44,7 +44,7 @@ class CustomRegistrationForm(forms.ModelForm):
 
     class Meta:
         model = Student
-        fields = ['student_id', 'first_name', 'last_name', 'email', 'phone_number', 'gender', 'profile_picture']
+        fields = ['student_id', 'first_name', 'last_name', 'email']
 
     def clean(self):
         cleaned_data = super().clean()

@@ -83,22 +83,6 @@ def update_profile(request):
     return render(request, 'students/update_profile.html', {'form': form})
 
 
-# Registration View
-def register(request):
-    if request.method == 'POST':
-        form = CustomRegistrationForm(request.POST, request.FILES)
-        if form.is_valid():
-            student_id = form.cleaned_data['student_id']
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
-            # Create a user to log in with student_id
-            user = User.objects.create_user(username=student_id, email=email, password=password)
-            user.save()
-            form.save()
-            return redirect('login')
-    else:
-        form = CustomRegistrationForm()
-    return render(request, 'auth/register.html', {'form': form})
 
 # Login View
 def login(request):
@@ -156,6 +140,7 @@ def dashboard(request):
 # Logout View
 def custom_logout(request):
     logout(request)
+    messages.error(request, "Logged out successfuly.")
     return redirect('login')
 
 # Student views

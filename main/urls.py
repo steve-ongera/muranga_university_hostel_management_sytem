@@ -61,7 +61,7 @@ urlpatterns = [
     path('hostels/update/<int:hostel_id>/', views.update_hostel, name='update_hostel'),
     path('hostels/delete/<int:hostel_id>/', views.delete_hostel, name='delete_hostel'),
     #auth
-    path('register/', views.register, name='register'),
+    
     path('', views.login, name='login'),
     path('logout/', views.custom_logout, name='logout'),
     path('admin_dashboard/', views.dashboard, name='admin_dashboard'),
