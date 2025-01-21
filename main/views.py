@@ -63,6 +63,7 @@ def student_dashboard(request):
         return redirect('login')  # Redirect to home or any other page
     
 
+@login_required
 def update_profile(request):
     user = request.user
     try:
@@ -109,7 +110,8 @@ def login(request):
 
     return render(request, 'auth/login.html', {'form': form})
 
-# Dashboard View
+@login_required
+# AdminDashboard View
 def dashboard(request):
     # Dashboard Statistics
     total_users = User.objects.count()
@@ -143,13 +145,14 @@ def custom_logout(request):
     messages.error(request, "Logged out successfuly.")
     return redirect('login')
 
+@login_required
 # Student views
-
-
+# students List
 def student_list(request):
     students = Student.objects.all()
     return render(request, 'students/list.html', {'students': students})
 
+@login_required
 # Create Student
 def create_student(request):
     if request.method == "POST":
@@ -161,16 +164,13 @@ def create_student(request):
         form = StudentForm()
     return render(request, 'students/create.html', {'form': form})
 
-# List all Students
-def student_list(request):
-    students = Student.objects.all()
-    return render(request, 'students/list.html', {'students': students})
-
+@login_required
 # Detail View for Student
 def student_detail(request, student_id):
     student = get_object_or_404(Student, id=student_id)
     return render(request, 'students/detail.html', {'student': student})
 
+@login_required
 # Update Student
 def update_student(request, student_id):
     student = get_object_or_404(Student, id=student_id)
@@ -183,6 +183,7 @@ def update_student(request, student_id):
         form = StudentForm(instance=student)
     return render(request, 'students/update.html', {'form': form, 'student': student})
 
+@login_required
 # Delete Student
 def delete_student(request, student_id):
     student = get_object_or_404(Student, id=student_id)
@@ -195,17 +196,20 @@ def student_profile(request, pk):
     student = get_object_or_404(Student, pk=pk)
     return render(request, 'students/profile.html', {'student': student})
 
+@login_required
 # Room views
 def room_list(request):
     rooms = Room.objects.all()
     return render(request, 'rooms/list.html', {'rooms': rooms})
 
+@login_required
 # Room Detail View
 def room_detail(request, room_id):
     room = get_object_or_404(Room, id=room_id)  # Fetch the room by its ID
     return render(request, 'rooms/detail.html', {'room': room})
 
 
+@login_required
 # Create Room View
 def create_room(request):
     if request.method == 'POST':
@@ -218,6 +222,7 @@ def create_room(request):
     return render(request, 'rooms/create.html', {'form': form})
 
 
+@login_required
 # Update Room View
 def update_room(request, room_id):
     room = get_object_or_404(Room, id=room_id)  # Get the room by ID
@@ -231,6 +236,7 @@ def update_room(request, room_id):
     return render(request, 'rooms/update.html', {'form': form, 'room': room})
 
 
+@login_required
 # Delete Room View
 def delete_room(request, room_id):
     room = get_object_or_404(Room, id=room_id)
@@ -240,6 +246,7 @@ def delete_room(request, room_id):
     return render(request, 'rooms/delete_confirm.html', {'room': room})
 
 
+@login_required
 # Complaint views
 def file_complaint(request):
     if request.method == "POST":
@@ -251,16 +258,19 @@ def file_complaint(request):
         form = ComplaintForm()
     return render(request, 'complaints/file.html', {'form': form})
 
+@login_required
 # Complaint List (Read all complaints)
 def complaint_list(request):
     complaints = Complaint.objects.all()
     return render(request, 'complaints/list.html', {'complaints': complaints})
 
+@login_required
 # Complaint Detail View (Read single complaint)
 def complaint_detail(request, complaint_id):
     complaint = get_object_or_404(Complaint, id=complaint_id)
     return render(request, 'complaints/detail.html', {'complaint': complaint})
 
+@login_required
 # Update Complaint
 def update_complaint(request, complaint_id):
     complaint = get_object_or_404(Complaint, id=complaint_id)
@@ -273,6 +283,8 @@ def update_complaint(request, complaint_id):
         form = ComplaintForm(instance=complaint)
     return render(request, 'complaints/update.html', {'form': form, 'complaint': complaint})
 
+
+@login_required
 # Delete Complaint
 def delete_complaint(request, complaint_id):
     complaint = get_object_or_404(Complaint, id=complaint_id)
@@ -281,6 +293,7 @@ def delete_complaint(request, complaint_id):
         return redirect('complaint_list')
     return render(request, 'complaints/confirm_delete.html', {'complaint': complaint})
 
+@login_required
 # Create a Maintenance Request
 def file_maintenance_request(request):
     if request.method == "POST":
@@ -292,16 +305,20 @@ def file_maintenance_request(request):
         form = MaintenanceRequestForm()
     return render(request, 'maintenance/file.html', {'form': form})
 
+@login_required
 # List all Maintenance Requests
 def maintenance_list(request):
     requests = MaintenanceRequest.objects.all()
     return render(request, 'maintenance/list.html', {'requests': requests})
 
+@login_required
 # Detail View for a Maintenance Request
 def maintenance_detail(request, request_id):
     maintenance = get_object_or_404(MaintenanceRequest, id=request_id)
     return render(request, 'maintenance/detail.html', {'maintenance': maintenance})
 
+
+@login_required
 # Update a Maintenance Request
 def update_maintenance_request(request, request_id):
     maintenance = get_object_or_404(MaintenanceRequest, id=request_id)
@@ -314,6 +331,8 @@ def update_maintenance_request(request, request_id):
         form = MaintenanceRequestForm(instance=maintenance)
     return render(request, 'maintenance/update.html', {'form': form, 'maintenance': maintenance})
 
+
+@login_required
 # Delete a Maintenance Request
 def delete_maintenance_request(request, request_id):
     maintenance = get_object_or_404(MaintenanceRequest, id=request_id)
@@ -323,6 +342,7 @@ def delete_maintenance_request(request, request_id):
     return render(request, 'maintenance/confirm_delete.html', {'maintenance': maintenance})
 
 
+@login_required
 # Create a Visitor
 def create_visitor(request):
     if request.method == "POST":
@@ -334,16 +354,21 @@ def create_visitor(request):
         form = VisitorForm()
     return render(request, 'visitors/create.html', {'form': form})
 
+@login_required
 # List all Visitors
 def visitor_list(request):
     visitors = Visitor.objects.all()
     return render(request, 'visitors/list.html', {'visitors': visitors})
 
+
+@login_required
 # Detail View for a Visitor
 def visitor_detail(request, visitor_id):
     visitor = get_object_or_404(Visitor, id=visitor_id)
     return render(request, 'visitors/detail.html', {'visitor': visitor})
 
+
+@login_required
 # Update a Visitor
 def update_visitor(request, visitor_id):
     visitor = get_object_or_404(Visitor, id=visitor_id)
@@ -356,6 +381,7 @@ def update_visitor(request, visitor_id):
         form = VisitorForm(instance=visitor)
     return render(request, 'visitors/update.html', {'form': form, 'visitor': visitor})
 
+@login_required
 # Delete a Visitor
 def delete_visitor(request, visitor_id):
     visitor = get_object_or_404(Visitor, id=visitor_id)
@@ -365,6 +391,7 @@ def delete_visitor(request, visitor_id):
     return render(request, 'visitors/confirm_delete.html', {'visitor': visitor})
 
 
+@login_required
 # Create a Bed Allocation
 def create_bed_allocation(request):
     if request.method == "POST":
@@ -376,16 +403,20 @@ def create_bed_allocation(request):
         form = BedAllocationForm()
     return render(request, 'bed_allocations/create.html', {'form': form})
 
+@login_required
 # List all Bed Allocations
 def bed_allocation_list(request):
     bed_allocations = BedAllocation.objects.all()
     return render(request, 'bed_allocations/list.html', {'bed_allocations': bed_allocations})
 
+@login_required
 # Detail View for a Bed Allocation
 def bed_allocation_detail(request, allocation_id):
     allocation = get_object_or_404(BedAllocation, id=allocation_id)
     return render(request, 'bed_allocations/detail.html', {'allocation': allocation})
 
+
+@login_required
 # Update a Bed Allocation
 def update_bed_allocation(request, allocation_id):
     allocation = get_object_or_404(BedAllocation, id=allocation_id)
@@ -398,6 +429,7 @@ def update_bed_allocation(request, allocation_id):
         form = BedAllocationForm(instance=allocation)
     return render(request, 'bed_allocations/update.html', {'form': form, 'allocation': allocation})
 
+@login_required
 # Delete a Bed Allocation
 def delete_bed_allocation(request, allocation_id):
     allocation = get_object_or_404(BedAllocation, id=allocation_id)
@@ -408,6 +440,7 @@ def delete_bed_allocation(request, allocation_id):
 
 
 
+@login_required
 # Create Staff
 def create_staff(request):
     if request.method == "POST":
@@ -419,16 +452,20 @@ def create_staff(request):
         form = StaffForm()
     return render(request, 'staff/create.html', {'form': form})
 
+@login_required
 # List all Staff
 def staff_list(request):
     staff_members = Staff.objects.all()
     return render(request, 'staff/list.html', {'staff_members': staff_members})
 
+
+@login_required
 # Detail View for Staff
 def staff_detail(request, staff_id):
     staff_member = get_object_or_404(Staff, id=staff_id)
     return render(request, 'staff/detail.html', {'staff_member': staff_member})
 
+@login_required
 # Update Staff
 def update_staff(request, staff_id):
     staff_member = get_object_or_404(Staff, id=staff_id)
@@ -441,6 +478,7 @@ def update_staff(request, staff_id):
         form = StaffForm(instance=staff_member)
     return render(request, 'staff/update.html', {'form': form, 'staff_member': staff_member})
 
+@login_required
 # Delete Staff
 def delete_staff(request, staff_id):
     staff_member = get_object_or_404(Staff, id=staff_id)
@@ -450,6 +488,7 @@ def delete_staff(request, staff_id):
     return render(request, 'staff/confirm_delete.html', {'staff_member': staff_member})
 
 
+@login_required
 # Create Hostel
 def create_hostel(request):
     if request.method == "POST":
@@ -461,16 +500,21 @@ def create_hostel(request):
         form = HostelForm()
     return render(request, 'hostels/create.html', {'form': form})
 
+@login_required
 # List all Hostels
 def hostel_list(request):
     hostels = Hostel.objects.all()
     return render(request, 'hostels/list.html', {'hostels': hostels})
 
+
+@login_required
 # Detail View for Hostel
 def hostel_detail(request, hostel_id):
     hostel = get_object_or_404(Hostel, id=hostel_id)
     return render(request, 'hostels/detail.html', {'hostel': hostel})
 
+
+@login_required
 # Update Hostel
 def update_hostel(request, hostel_id):
     hostel = get_object_or_404(Hostel, id=hostel_id)
@@ -483,6 +527,7 @@ def update_hostel(request, hostel_id):
         form = HostelForm(instance=hostel)
     return render(request, 'hostels/update.html', {'form': form, 'hostel': hostel})
 
+@login_required
 # Delete Hostel
 def delete_hostel(request, hostel_id):
     hostel = get_object_or_404(Hostel, id=hostel_id)
@@ -491,7 +536,7 @@ def delete_hostel(request, hostel_id):
         return redirect('hostel_list')
     return render(request, 'hostels/confirm_delete.html', {'hostel': hostel})
 
-
+@login_required
 # View to list all hostels
 def bookings_hostel_list(request):
     hostels = Hostel.objects.all()
@@ -503,6 +548,7 @@ def bookings_hostel_list(request):
     return render(request, 'bookings/hostel_list.html', {'hostels': hostels})
 
 
+@login_required
 # View to see rooms in a selected hostel
 def bookings_room_list(request, hostel_id):
     hostel = get_object_or_404(Hostel, id=hostel_id)
@@ -520,6 +566,7 @@ def bookings_room_list(request, hostel_id):
 
 
 
+@login_required
 # View to see available beds in a selected room
 def bookings_bed_list(request, room_id):
     room = get_object_or_404(Room, id=room_id)
@@ -535,11 +582,13 @@ def bookings_book_bed(request, bed_id):
     return render(request, 'bookings/view_bed.html', context)
 
 
+
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Bed
 from .forms import BedBookingForm
 from .utils import send_bed_booking_receipt_email
 
+@login_required
 def book_bed(request, bed_id):
     # Fetch the selected bed
     bed = get_object_or_404(Bed, id=bed_id, is_occupied=False)
@@ -575,11 +624,13 @@ def book_bed(request, bed_id):
 
 
 
-
+@login_required
 def booking_success(request):
     return render(request, 'bookings/booking_success.html')
 
 
+
+@login_required
 def search_booking_view(request):
     if request.method == "GET" and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         booking_id = request.GET.get('booking_id')
@@ -610,6 +661,7 @@ def search_booking_view(request):
     return render(request, 'bookings/search_booking.html')
 
 
+@login_required
 def search_student_view(request):
     query = request.GET.get('query', '').strip()
     students = None
@@ -676,6 +728,7 @@ def maintenance_request_list(request):
     return render(request, 'maintenance/maintenance_request_list.html', {'maintenance_requests': maintenance_requests})
 
 
+@login_required
 #visitor check in
 def visitor_check_in(request):
     if request.method == 'POST':

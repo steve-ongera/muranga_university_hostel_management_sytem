@@ -227,9 +227,9 @@ npm run test
 Distributed under MIT License. See `LICENSE.md` for details.
 
 ## 📞 Contact & Support
-- Project Maintainer: [Your Name]
+- Project Maintainer: Steve Ongera 
 - Email: hostel.support@murangauniversity.ac.ke
-- Issue Tracker: [GitHub Issues Link]
+- Issue Tracker: +254112284093
 
 ## 🙏 Acknowledgements
 - Muranga University Administration
